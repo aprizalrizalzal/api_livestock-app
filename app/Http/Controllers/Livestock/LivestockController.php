@@ -33,7 +33,7 @@ class LivestockController extends Controller
         if ($user->hasRole(['admin', 'seller'])) {
             $livestocks = Livestock::with('profile', 'livestockType', 'livestockSpecies')->where('profile_id', $profileId)->get();
         } else {
-            return response()->json(['message' => 'Anda tidak memiliki izin.'], 203);
+            return response()->json(['message' => 'Anda tidak memiliki izin.'], 403);
         }
 
         if (!$livestocks) {
@@ -77,7 +77,7 @@ class LivestockController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([
@@ -131,7 +131,7 @@ class LivestockController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([
@@ -163,7 +163,7 @@ class LivestockController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([

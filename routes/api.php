@@ -30,11 +30,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
+Route::get('livestocks', [LivestockController::class, 'getLivestocks']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
     // Users
     Route::get('users', [UserController::class, 'getUsers']);
     Route::get('user/{id}', [UserController::class, 'getUserById']);
-    Route::delete('user', [UserController::class, 'deleteUserById']);
+    Route::delete('user/{id}', [UserController::class, 'deleteUserById']);
 
     // Profiles
     Route::get('profile', [ProfileController::class, 'getProfile']);
@@ -44,7 +46,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('profile', [ProfileController::class, 'deleteProfile']);
 
     // Livestocks
-    Route::get('livestocks', [LivestockController::class, 'getLivestocks']);
     Route::get('livestocks/{profile_id}', [LivestockController::class, 'getLivestockByIdProfile']);
     Route::post('livestock', [LivestockController::class, 'postLivestock']);
     Route::get('livestock/{id}', [LivestockController::class, 'getLivestockById']);

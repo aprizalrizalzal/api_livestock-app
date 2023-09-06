@@ -36,7 +36,7 @@ class PaymentController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         if ($payment->isEmpty()) {
@@ -74,7 +74,7 @@ class PaymentController extends Controller
         if ($findTransaction->profile->id !== $profileId) {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         $existingPayment = Payment::where('transaction_id', $transactionId)->first();
@@ -100,7 +100,7 @@ class PaymentController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([
@@ -124,7 +124,7 @@ class PaymentController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([
@@ -160,7 +160,7 @@ class PaymentController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([
@@ -192,7 +192,7 @@ class PaymentController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([

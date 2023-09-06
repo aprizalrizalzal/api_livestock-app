@@ -73,7 +73,7 @@ class LivestockSpeciesController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([
@@ -133,7 +133,7 @@ class LivestockSpeciesController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([
@@ -165,7 +165,7 @@ class LivestockSpeciesController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([

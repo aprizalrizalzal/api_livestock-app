@@ -35,7 +35,7 @@ class TransactionController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         if ($transactions->isEmpty()) {
@@ -94,7 +94,7 @@ class TransactionController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([
@@ -118,7 +118,7 @@ class TransactionController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         if (!$transaction) {
@@ -160,7 +160,7 @@ class TransactionController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([
@@ -192,7 +192,7 @@ class TransactionController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([

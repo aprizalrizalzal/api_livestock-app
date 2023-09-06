@@ -19,7 +19,7 @@ class UserController extends Controller
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([
@@ -78,12 +78,12 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        if ($user->hasRole(['admin'])) {
+        if ($user->hasRole(['admin', 'seller', 'buyer'])) {
             $findUser = User::with('profile', 'roles', 'permissions')->find($id);
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         if (!$findUser) {
@@ -101,8 +101,7 @@ class UserController extends Controller
     {
         $user = $request->user();
 
-        if ($user->hasRole(['admin'])) {
-            $findUser = User::find($id);
+        $findUser = User::find($id);
 
             if (!$findUser) {
                 return response()->json([
@@ -110,11 +109,17 @@ class UserController extends Controller
                 ], 404);
             }
 
+        if ($user->hasRole(['admin'])) {
+            if ($user->id === $findUser->id) {
+                return response()->json([
+                    'message' => 'Anda tidak dapat menghapus akun sendiri.'
+                ], 403);
+            }
             $findUser->delete();
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
-            ], 203);
+            ], 403);
         }
 
         return response()->json([
