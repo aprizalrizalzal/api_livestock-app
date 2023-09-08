@@ -42,7 +42,7 @@ class AuthController extends Controller
 
         if (!Auth::attempt($validatedData)) {
             return response()->json([
-                'message' => 'Kredensial login tidak valid.'
+                'message' => 'Maaf, email atau kata sandi yang Anda masukkan tidak valid.'
             ], 401);
         }
 

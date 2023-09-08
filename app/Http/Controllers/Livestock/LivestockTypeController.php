@@ -42,7 +42,7 @@ class LivestockTypeController extends Controller
 
         if ($existingLivestockType) {
             return response()->json([
-                'message' => 'Jenis hewan ternak sudah ada'
+                'message' => 'Jenis hewan ternak sudah ada.'
             ], 400);
         }
 
@@ -76,7 +76,7 @@ class LivestockTypeController extends Controller
 
         if (!$findLivestockType) {
             return response()->json([
-                'message' => 'Jenis hewan ternak tidak ditemukan'
+                'message' => 'Jenis hewan ternak tidak ditemukan.'
             ], 404);
         }
 
@@ -100,7 +100,7 @@ class LivestockTypeController extends Controller
 
         if (!$findLivestockType) {
             return response()->json([
-                'message' => 'Jenis hewan ternak tidak ditemukan'
+                'message' => 'Jenis hewan ternak tidak ditemukan.'
             ], 404);
         }
 
@@ -136,7 +136,7 @@ class LivestockTypeController extends Controller
 
         if (!$findLivestockType) {
             return response()->json([
-                'message' => 'Jenis hewan ternak tidak ditemukan'
+                'message' => 'Jenis hewan ternak tidak ditemukan.'
             ], 404);
         }
 
@@ -149,7 +149,7 @@ class LivestockTypeController extends Controller
         }
 
         return response()->json([
-            'message' => 'Jenis hewan ternak berhasil dihapus'
+            'message' => 'Jenis hewan ternak berhasil dihapus.'
         ], 200);
     }
 }

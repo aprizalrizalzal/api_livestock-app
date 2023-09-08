@@ -50,15 +50,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('livestocks/{profile_id}', [LivestockController::class, 'getLivestockByIdProfile']);
     Route::post('livestock', [LivestockController::class, 'postLivestock']);
     Route::post('livestock-photo/{id}', [LivestockController::class, 'postLivestockPhotoById']);
-    Route::PUT('livestock-photo/{id}', [LivestockController::class, 'putLivestockPhotoById']);
+    Route::put('livestock-photo/{id}', [LivestockController::class, 'putLivestockPhotoById']);
     Route::get('livestock/{id}', [LivestockController::class, 'getLivestockById']);
     Route::put('livestock/{id}', [LivestockController::class, 'putLivestockById']);
     Route::delete('livestock/{id}', [LivestockController::class, 'deleteLivestockById']);
 
     // Livestock Photos
-    Route::get('livestock-photos/{livestock_id}', [LivestockPhotoController::class, 'getLivestockPhotosByIdLivestock']);
-    Route::post('livestock-photo/{livestock_id}', [LivestockPhotoController::class, 'postLivestockPhotoByIdLivestock']);
-    Route::delete('livestock-photo/{id}', [LivestockPhotoController::class, 'deleteLivestockPhotoById']);
+    Route::get('livestock/livestock-photos/{livestock_id}', [LivestockPhotoController::class, 'getLivestockPhotosByIdLivestock']);
+    Route::post('livestock/livestock-photo/{livestock_id}', [LivestockPhotoController::class, 'postLivestockPhotoByIdLivestock']);
+    Route::delete('livestock/livestock-photo/{id}', [LivestockPhotoController::class, 'deleteLivestockPhotoById']);
 
     // Livestock Types
     Route::get('livestock-types', [LivestockTypeController::class, 'getLivestockTypes']);

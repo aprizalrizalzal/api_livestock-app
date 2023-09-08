@@ -47,10 +47,14 @@ class UserController extends Controller
 
     //         $user->sendEmailVerificationNotification();
 
-    //         return response()->json(['message' => 'Email berhasil diperbarui, silakan verifikasi email baru'], 200);
+    //         return response()->json([
+    //             'message' => 'Email berhasil diperbarui, silakan verifikasi email baru.'
+    //         ], 200);
     //     }
 
-    //     return response()->json(['message' => 'Email berhasil diperbarui'], 200);
+    //     return response()->json([
+    //         'message' => 'Email berhasil diperbarui.'
+    //     ], 200);
     // }
 
     // public function putUserPassword(Request $request)
@@ -71,7 +75,9 @@ class UserController extends Controller
     //     $user->password = Hash::make($validatedData['password']);
     //     $user->save();
 
-    //     return response()->json(['message' => 'Password berhasil diperbarui.'], 200);
+    //     return response()->json([
+    //         'message' => 'Password berhasil diperbarui.'
+    //     ], 200);
     // }
 
     public function getuserById(Request $request, string $id)

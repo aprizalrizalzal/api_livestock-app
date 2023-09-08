@@ -31,14 +31,16 @@ class LivestockSpeciesController extends Controller
         $profile = $user->profile;
 
         if (!$profile) {
-            return response()->json(['message' => 'Silahkan atur Profil Anda terlebih dahulu'], 404);
+            return response()->json([
+                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
+            ], 404);
         }
 
         $findLivestockType = LivestockType::find($livestockTypeId);
 
         if (!$findLivestockType) {
             return response()->json([
-                'message' => 'Jenis hewan ternak tidak ditemukan'
+                'message' => 'Jenis hewan ternak tidak ditemukan.'
             ], 404);
         }
 
@@ -56,7 +58,7 @@ class LivestockSpeciesController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu'
+                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
             ], 404);
         }
 
@@ -88,7 +90,7 @@ class LivestockSpeciesController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu'
+                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
             ], 404);
         }
 
@@ -96,7 +98,7 @@ class LivestockSpeciesController extends Controller
 
         if (!$findLivestockSpecies) {
             return response()->json([
-                'message' => 'Sepesies dari jenis hewan tidak ditemukan'
+                'message' => 'Sepesies dari jenis hewan tidak ditemukan.'
             ], 404);
         }
 
@@ -112,7 +114,7 @@ class LivestockSpeciesController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu'
+                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
             ], 404);
         }
 
@@ -120,7 +122,7 @@ class LivestockSpeciesController extends Controller
 
         if (!$findLivestockSpecies) {
             return response()->json([
-                'message' => 'Spesies dari jenis hewan tidak ditemukan'
+                'message' => 'Spesies dari jenis hewan tidak ditemukan.'
             ], 404);
         }
 
@@ -148,7 +150,7 @@ class LivestockSpeciesController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu'
+                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
             ], 404);
         }
 
@@ -156,7 +158,7 @@ class LivestockSpeciesController extends Controller
 
         if (!$findLivestockSpecies) {
             return response()->json([
-                'message' => 'Spesies dari jenis hewan tidak ditemukan'
+                'message' => 'Spesies dari jenis hewan tidak ditemukan.'
             ], 404);
         }
 
@@ -169,7 +171,7 @@ class LivestockSpeciesController extends Controller
         }
 
         return response()->json([
-            'message' => 'Spesies dari jenis hewan berhasil dihapus'
+            'message' => 'Spesies dari jenis hewan berhasil dihapus.'
         ], 200);
     }
 }

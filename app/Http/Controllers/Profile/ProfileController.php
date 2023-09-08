@@ -61,7 +61,9 @@ class ProfileController extends Controller
         $profile = $user->profile;
 
         if (!$profile) {
-            return response()->json(['message' => 'Silahkan atur profil Anda terlebih dahulu.'], 404);
+            return response()->json([
+                'message' => 'Silahkan atur profil Anda terlebih dahulu.'
+            ], 404);
         }
 
         $validatedData = $request->validate([
@@ -87,7 +89,9 @@ class ProfileController extends Controller
         $profile = $user->profile;
 
         if (!$profile) {
-            return response()->json(['message' => 'Silahkan atur profil Anda terlebih dahulu.'], 404);
+            return response()->json([
+                'message' => 'Silahkan atur profil Anda terlebih dahulu.'
+            ], 404);
         }
 
         if ($profile->photo_url) {
@@ -140,7 +144,7 @@ class ProfileController extends Controller
         $profile->delete();
 
         return response()->json([
-            'message' => 'Profil berhasil dihapus'
+            'message' => 'Profil berhasil dihapus.'
         ], 200);
     }
 }

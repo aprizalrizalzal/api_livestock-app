@@ -14,7 +14,9 @@ class LivestockController extends Controller
         $livestocks = Livestock::with('profile', 'livestockType', 'livestockSpecies')->get();
 
         if (!$livestocks) {
-            return response()->json(['message' => 'Tidak ada hewan ternak.'], 404);
+            return response()->json([
+                'message' => 'Tidak ada hewan ternak.'
+            ], 404);
         }
 
         return response()->json([
@@ -28,17 +30,23 @@ class LivestockController extends Controller
         $profile = $user->profile;
 
         if (!$profile) {
-            return response()->json(['message' => 'Silahkan atur Profil Anda terlebih dahulu.'], 404);
+            return response()->json([
+                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
+            ], 404);
         }
         
         if ($user->hasRole(['admin', 'seller'])) {
             $livestocks = Livestock::with('profile', 'livestockType', 'livestockSpecies')->where('profile_id', $profileId)->get();
         } else {
-            return response()->json(['message' => 'Anda tidak memiliki izin.'], 403);
+            return response()->json([
+                'message' => 'Anda tidak memiliki izin.'
+            ], 403);
         }
 
         if (!$livestocks) {
-            return response()->json(['message' => 'Pengguna tidak memiliki hewan ternak.'], 404);
+            return response()->json([
+                'message' => 'Pengguna tidak memiliki hewan ternak.'
+            ], 404);
         }
 
         return response()->json([
@@ -52,7 +60,9 @@ class LivestockController extends Controller
         $profile = $user->profile;
 
         if (!$profile) {
-            return response()->json(['message' => 'Silahkan atur Profil Anda terlebih dahulu.'], 404);
+            return response()->json([
+                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
+            ], 404);
         }
 
         $validatedData = $request->validate([
@@ -92,14 +102,22 @@ class LivestockController extends Controller
         $profile = $user->profile;
 
         if (!$profile) {
-            return response()->json(['message' => 'Silahkan atur profil Anda terlebih dahulu.'], 404);
+            return response()->json([
+                'message' => 'Silahkan atur profil Anda terlebih dahulu.'
+            ], 404);
         }
 
         $validatedData = $request->validate([
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
-        $findLivestock = Livestock::with('profile', 'livestockType', 'livestockSpecies')->find($id);
+        $findLivestock = Livestock::find($id);
+
+        if (!$findLivestock) {
+            return response()->json([
+                'message' => 'Foto hewan ternak tidak ditemukan.'
+            ], 404);
+        }
 
         if ($findLivestock->photo_url) {
             Storage::delete($findLivestock->photo_url);
@@ -107,11 +125,13 @@ class LivestockController extends Controller
 
         $path = $validatedData['photo']->store('photos/livestock');
 
-        $profile->update([
+        $findLivestock->update([
             'photo_url' => $path,
         ]);
 
-        return response()->json(['livestock' => $findLivestock], 200);
+        return response()->json([
+            'livestock' => $findLivestock
+        ], 200);
     }
 
     public function putLivestockPhotoById(Request $request, string $id)
@@ -120,10 +140,18 @@ class LivestockController extends Controller
         $profile = $user->profile;
 
         if (!$profile) {
-            return response()->json(['message' => 'Silahkan atur profil Anda terlebih dahulu.'], 404);
+            return response()->json([
+                'message' => 'Silahkan atur profil Anda terlebih dahulu.'
+            ], 404);
         }
         
-        $findLivestock = Livestock::with('profile', 'livestockType', 'livestockSpecies')->find($id);
+        $findLivestock = Livestock::find($id);
+
+        if (!$findLivestock) {
+            return response()->json([
+                'message' => 'Foto hewan ternak tidak ditemukan.'
+            ], 404);
+        }
 
         if ($findLivestock->photo_url) {
             Storage::delete($findLivestock->photo_url);
@@ -133,7 +161,9 @@ class LivestockController extends Controller
             'photo_url' => null,
         ]);
 
-        return response()->json(['livestock' => $findLivestock], 200);
+        return response()->json([
+            'livestock' => $findLivestock
+        ], 200);
     }
 
     public function getLivestockById(string $id)
@@ -141,7 +171,9 @@ class LivestockController extends Controller
         $findLivestock = Livestock::with('livestockPhotos', 'profile', 'livestockType', 'livestockSpecies')->find($id);
 
         if (!$findLivestock) {
-            return response()->json(['message' => 'Hewan ternak tidak ditemukan.'], 404);
+            return response()->json([
+                'message' => 'Hewan ternak tidak ditemukan.'
+            ], 404);
         }
 
         return response()->json([
@@ -155,7 +187,9 @@ class LivestockController extends Controller
         $profile = $user->profile;
 
         if (!$profile) {
-            return response()->json(['message' => 'Silahkan atur Profil Anda terlebih dahulu.'], 404);
+            return response()->json([
+                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
+            ], 404);
         }
 
         $findLivestock = Livestock::find($id);
@@ -196,7 +230,9 @@ class LivestockController extends Controller
         $profile = $user->profile;
 
         if (!$profile) {
-            return response()->json(['message' => 'Silahkan atur Profil Anda terlebih dahulu.'], 404);
+            return response()->json([
+                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
+            ], 404);
         }
 
         $findLivestock = Livestock::find($id);
