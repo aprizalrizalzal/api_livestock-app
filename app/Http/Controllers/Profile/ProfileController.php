@@ -81,6 +81,25 @@ class ProfileController extends Controller
         return response()->json(['profile' => $profile], 200);
     }
 
+    public function putProfilePhoto(Request $request)
+    {
+        $user = $request->user();
+        $profile = $user->profile;
+
+        if (!$profile) {
+            return response()->json(['message' => 'Silahkan atur profil Anda terlebih dahulu.'], 404);
+        }
+
+        if ($profile->photo_url) {
+            Storage::delete($profile->photo_url);
+        }
+
+        $profile->update([
+            'photo_url' => null,
+        ]);
+
+        return response()->json(['profile' => $profile], 200);
+    }
 
     public function putProfile(Request $request)
     {

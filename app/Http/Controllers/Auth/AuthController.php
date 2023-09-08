@@ -48,7 +48,9 @@ class AuthController extends Controller
 
         $user = Auth::user();
         
+        $user->getRoleNames();
         $user->tokens()->delete();
+        
         $token = $user->createToken('api_token')->plainTextToken;
 
         return response()->json([

@@ -70,24 +70,6 @@ class LivestockPhotoController extends Controller
         return response()->json(['livestockPhoto' => $createLivestockPhoto], 201);
     }
 
-    public function getLivestockPhotoById(Request $request, string $id)
-    {
-        $user = $request->user();
-        $profile = $user->profile;
-
-        if (!$profile) {
-            return response()->json(['message' => 'Silahkan atur profil Anda terlebih dahulu.'], 404);
-        }
-
-        $findLivestockPhoto = LivestockPhoto::find($id);
-
-        if (!$findLivestockPhoto) {
-            return response()->json(['message' => 'Foto hewan ternak tidak ditemukan.'], 404);
-        }
-
-        return response()->json(['livestockPhoto' => $findLivestockPhoto], 200);
-    }
-
     public function deleteLivestockPhotoById(Request $request, string $id)
     {
         $user = $request->user();

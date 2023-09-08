@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Livestock;
 use App\Http\Controllers\Controller;
 use App\Models\Livestock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class LivestockController extends Controller
 {
@@ -83,6 +84,56 @@ class LivestockController extends Controller
         return response()->json([
             'livestock' => $livestocks
         ], 201);
+    }
+
+    public function postLivestockPhotoById(Request $request, string $id)
+    {
+        $user = $request->user();
+        $profile = $user->profile;
+
+        if (!$profile) {
+            return response()->json(['message' => 'Silahkan atur profil Anda terlebih dahulu.'], 404);
+        }
+
+        $validatedData = $request->validate([
+            'photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
+        ]);
+
+        $findLivestock = Livestock::with('profile', 'livestockType', 'livestockSpecies')->find($id);
+
+        if ($findLivestock->photo_url) {
+            Storage::delete($findLivestock->photo_url);
+        }
+
+        $path = $validatedData['photo']->store('photos/livestock');
+
+        $profile->update([
+            'photo_url' => $path,
+        ]);
+
+        return response()->json(['livestock' => $findLivestock], 200);
+    }
+
+    public function putLivestockPhotoById(Request $request, string $id)
+    {
+        $user = $request->user();
+        $profile = $user->profile;
+
+        if (!$profile) {
+            return response()->json(['message' => 'Silahkan atur profil Anda terlebih dahulu.'], 404);
+        }
+        
+        $findLivestock = Livestock::with('profile', 'livestockType', 'livestockSpecies')->find($id);
+
+        if ($findLivestock->photo_url) {
+            Storage::delete($findLivestock->photo_url);
+        }
+
+        $findLivestock->update([
+            'photo_url' => null,
+        ]);
+
+        return response()->json(['livestock' => $findLivestock], 200);
     }
 
     public function getLivestockById(string $id)
