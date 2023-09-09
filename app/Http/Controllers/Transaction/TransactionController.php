@@ -24,14 +24,14 @@ class TransactionController extends Controller
         $profileId = $profile->id;
 
         if ($user->hasRole(['admin'])) {
-            $transactions = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'Livestock.livestockSpecies', 'livestock.profile')->get();
+            $transactions = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'livestock.livestockSpecies', 'livestock.profile')->get();
         } else if ($user->hasRole(['seller'])) {
-            $transactions = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'Livestock.livestockSpecies', 'livestock.profile')
+            $transactions = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'livestock.livestockSpecies', 'livestock.profile')
                 ->whereHas('livestock', function ($query) use ($profileId) {
                     $query->where('profile_id', $profileId);
                 })->get();
         } else if ($user->hasRole(['buyer'])) {
-            $transactions = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'Livestock.livestockSpecies', 'livestock.profile')->where('profile_id', $profileId)->get();
+            $transactions = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'livestock.livestockSpecies', 'livestock.profile')->where('profile_id', $profileId)->get();
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
@@ -45,7 +45,7 @@ class TransactionController extends Controller
         }
 
         return response()->json([
-            'transaction' => $transactions
+            'transactions' => $transactions
         ], 200);
     }
 
@@ -60,7 +60,7 @@ class TransactionController extends Controller
             ], 404);
         }
 
-        $findLivestock =Livestock::find($livestockId);
+        $findLivestock = Livestock::find($livestockId);
 
         if (!$findLivestock) {
             return response()->json([

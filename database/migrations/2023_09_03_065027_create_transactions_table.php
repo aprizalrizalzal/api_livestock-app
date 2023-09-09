@@ -17,6 +17,7 @@ return new class extends Migration
             $table->boolean('status');
             $table->timestamps();
 
+            $table->foreignId('profile_id')->constrained()->onDelete('cascade');
             $table->foreignId('livestock_id')->constrained()->onDelete('cascade');
         });
     }
