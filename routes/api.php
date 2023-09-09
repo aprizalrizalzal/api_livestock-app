@@ -69,7 +69,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // Livestock Species
     Route::get('livestocks-species/{livestock_type_id}', [LivestockSpeciesController::class, 'getLivestockSpeciesByIdLivestockType']);
-    Route::post('livestock-species', [LivestockSpeciesController::class, 'postLivestockSpecies']);
+    Route::post('livestock-species/{livestock_type_id}', [LivestockSpeciesController::class, 'postLivestockSpeciesByIdLivestockType']);
     Route::get('livestock-species/{id}', [LivestockSpeciesController::class, 'getLivestockSpeciesById']);
     Route::put('livestock-species/{id}', [LivestockSpeciesController::class, 'putLivestockSpeciesById']);
     Route::delete('livestock-species/{id}', [LivestockSpeciesController::class, 'deleteLivestockSpeciesById']);

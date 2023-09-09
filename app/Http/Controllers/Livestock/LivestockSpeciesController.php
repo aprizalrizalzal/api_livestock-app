@@ -51,7 +51,7 @@ class LivestockSpeciesController extends Controller
         ], 201);
     }
 
-    public function postLivestockSpecies(Request $request)
+    public function postLivestockSpeciesByIdLivestockType(Request $request, string $livestockTypeId)
     {
         $user = $request->user();
         $profile = $user->profile;
@@ -62,14 +62,21 @@ class LivestockSpeciesController extends Controller
             ], 404);
         }
 
+        $findLivestockType = LivestockType::find($livestockTypeId);
+
+        if (!$findLivestockType) {
+            return response()->json([
+                'message' => 'Jenis hewan ternak tidak ditemukan.'
+            ], 404);
+        }
+
         $validatedData = $request->validate([
-            'livestock_type_id' => 'required',
             'name' => 'required',
         ]);
 
         if ($user->hasRole(['admin'])) {
             $livestockSpecies = LivestockSpecies::create([
-                'livestock_type_id' => $validatedData['livestock_type_id'],
+                'livestock_type_id' => $findLivestockType->id,
                 'name' => $validatedData['name'],
             ]);
         } else {
