@@ -90,6 +90,7 @@ class TransactionController extends Controller
                 'livestock_id' => $findLivestock->id,
                 'date' => Carbon::now(),
                 'status' => false,
+                'method' => null,
             ]);
         } else {
             return response()->json([
@@ -152,7 +153,8 @@ class TransactionController extends Controller
         }
 
         $validatedData = $request->validate([
-            'transaction_status' => 'required|boolean',
+            'status' => 'required|boolean',
+            'method' => '',
         ]);
 
         if ($user->hasRole(['admin', 'seller', 'buyer'])) {

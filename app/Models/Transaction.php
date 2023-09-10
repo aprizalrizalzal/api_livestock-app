@@ -16,6 +16,7 @@ class Transaction extends Model
         'livestock_id',
         'date',
         'status',
+        'method',
     ];
 
     public function profile()

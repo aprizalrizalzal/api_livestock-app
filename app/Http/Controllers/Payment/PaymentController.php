@@ -24,29 +24,33 @@ class PaymentController extends Controller
         $profileId = $profile->id;
 
         if ($user->hasRole(['admin'])) {
-            $payment = Payment::with('transaction', 'transaction.profile', 'transaction.livestock', 'transaction.livestock.livestockType', 'transaction.livestock.livestockSpecies', 'transaction.livestock.profile')->get();
+            $payments = Payment::with('transaction', 'transaction.profile', 'transaction.livestock', 'transaction.livestock.livestockType', 'transaction.livestock.livestockSpecies', 'transaction.livestock.profile')->get();
         } else if ($user->hasRole(['seller'])) {
-            $payment = Payment::with('transaction', 'transaction.profile', 'transaction.livestock', 'transaction.livestock.livestockType', 'transaction.livestock.livestockSpecies', 'transaction.livestock.profile')->whereHas('transaction', function ($query) use ($profileId) {
+            $payments = Payment::with('transaction', 'transaction.profile', 'transaction.livestock', 'transaction.livestock.livestockType', 'transaction.livestock.livestockSpecies', 'transaction.livestock.profile')->whereHas('transaction', function ($query) use ($profileId) {
                 $query->whereHas('profile', function ($query) use ($profileId) {
                     $query->where('id', $profileId);
                 });
             })->get();
         } else if ($user->hasRole(['buyer'])) {
-            $payment = Payment::with('transaction', 'transaction.profile', 'transaction.livestock', 'transaction.livestock.livestockType', 'transaction.livestock.livestockSpecies', 'transaction.livestock.profile')->where('profile_id', $profileId)->get();
+            $payments = Payment::with('transaction', 'transaction.profile', 'transaction.livestock', 'transaction.livestock.livestockType', 'transaction.livestock.livestockSpecies', 'transaction.livestock.profile')->whereHas('transaction', function ($query) use ($profileId) {
+                $query->whereHas('profile', function ($query) use ($profileId) {
+                    $query->where('id', $profileId);
+                });
+            })->get();
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
             ], 403);
         }
 
-        if ($payment->isEmpty()) {
+        if ($payments->isEmpty()) {
             return response()->json([
                 'message' => 'Tidak ada pembayaran.'
             ], 404);
         }
 
         return response()->json([
-            'payment' => $payment
+            'payments' => $payments
         ], 200);
     }
 
@@ -85,14 +89,9 @@ class PaymentController extends Controller
             ], 400);
         }
 
-        $validatedData = $request->validate([
-            'method' => 'required',
-        ]);
-
         if ($user->hasRole(['admin', 'seller', 'buyer'])) {
             $payment = Payment::create([
                 'transaction_id' => $findTransaction->id,
-                'method' => $validatedData['method'],
                 'date' => Carbon::now(),
                 'price' => $findTransaction->livestock->price,
                 'status' => false,

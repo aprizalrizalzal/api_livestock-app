@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->boolean('status');
+            $table->string('method')->nullable();
             $table->timestamps();
 
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');
