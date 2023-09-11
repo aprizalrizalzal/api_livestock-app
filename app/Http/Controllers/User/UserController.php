@@ -18,7 +18,7 @@ class UserController extends Controller
             $users = User::with('profile', 'roles')->get();
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
@@ -88,13 +88,13 @@ class UserController extends Controller
             $findUser = User::with('profile', 'roles', 'permissions')->find($id);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
         if (!$findUser) {
             return response()->json([
-                'message' => 'Pengguna tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
         
@@ -111,7 +111,7 @@ class UserController extends Controller
 
             if (!$findUser) {
                 return response()->json([
-                    'message' => 'Pengguna tidak ditemukan.'
+                    'message' => 'Tidak ditemukan.'
                 ], 404);
             }
 
@@ -124,7 +124,7 @@ class UserController extends Controller
             $findUser->delete();
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 

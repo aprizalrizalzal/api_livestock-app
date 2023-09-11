@@ -14,7 +14,7 @@ class LivestockTypeController extends Controller
 
         if (!$livestockTypes) {
             return response()->json([
-                'message' => 'Tidak ada jenis hewan ternak.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -30,8 +30,8 @@ class LivestockTypeController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $validatedData = $request->validate([
@@ -52,7 +52,7 @@ class LivestockTypeController extends Controller
             ]);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
@@ -68,15 +68,15 @@ class LivestockTypeController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findLivestockType = LivestockType::with('livestockSpecies')->find($id);
 
         if (!$findLivestockType) {
             return response()->json([
-                'message' => 'Jenis hewan ternak tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -92,15 +92,15 @@ class LivestockTypeController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findLivestockType = LivestockType::find($id);
 
         if (!$findLivestockType) {
             return response()->json([
-                'message' => 'Jenis hewan ternak tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -112,7 +112,7 @@ class LivestockTypeController extends Controller
             $findLivestockType->update($validatedData);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
@@ -128,15 +128,15 @@ class LivestockTypeController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findLivestockType = LivestockType::find($id);
 
         if (!$findLivestockType) {
             return response()->json([
-                'message' => 'Jenis hewan ternak tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -144,7 +144,7 @@ class LivestockTypeController extends Controller
             $findLivestockType->delete();
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 

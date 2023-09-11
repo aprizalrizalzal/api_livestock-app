@@ -32,15 +32,15 @@ class LivestockSpeciesController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findLivestockType = LivestockType::find($livestockTypeId);
 
         if (!$findLivestockType) {
             return response()->json([
-                'message' => 'Jenis hewan ternak tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -58,15 +58,15 @@ class LivestockSpeciesController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findLivestockType = LivestockType::find($livestockTypeId);
 
         if (!$findLivestockType) {
             return response()->json([
-                'message' => 'Jenis hewan ternak tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -81,7 +81,7 @@ class LivestockSpeciesController extends Controller
             ]);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
@@ -97,8 +97,8 @@ class LivestockSpeciesController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findLivestockSpecies = LivestockSpecies::find($id);
@@ -121,15 +121,15 @@ class LivestockSpeciesController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findLivestockSpecies = LivestockSpecies::find($id);
 
         if (!$findLivestockSpecies) {
             return response()->json([
-                'message' => 'Spesies dari jenis hewan tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -141,7 +141,7 @@ class LivestockSpeciesController extends Controller
             $findLivestockSpecies->update($validatedData);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
@@ -157,15 +157,15 @@ class LivestockSpeciesController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findLivestockSpecies = LivestockSpecies::find($id);
 
         if (!$findLivestockSpecies) {
             return response()->json([
-                'message' => 'Spesies dari jenis hewan tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -173,7 +173,7 @@ class LivestockSpeciesController extends Controller
             $findLivestockSpecies->delete();
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 

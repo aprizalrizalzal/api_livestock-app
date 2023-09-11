@@ -16,8 +16,8 @@ class ProfileController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         return response()->json([
@@ -62,8 +62,8 @@ class ProfileController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $validatedData = $request->validate([
@@ -90,8 +90,8 @@ class ProfileController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         if ($profile->photo_url) {
@@ -112,8 +112,8 @@ class ProfileController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $validatedData = $request->validate([
@@ -137,8 +137,8 @@ class ProfileController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $profile->delete();

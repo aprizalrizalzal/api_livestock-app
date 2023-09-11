@@ -17,15 +17,15 @@ class LivestockPhotoController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findLivestock = Livestock::find($livestockId);
 
         if (!$findLivestock) {
             return response()->json([
-                'message' => 'Hewan ternak tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -33,7 +33,7 @@ class LivestockPhotoController extends Controller
 
         if (!$livestockPhotos) {
             return response()->json([
-                'message' => 'Anda tidak memiliki foto hewan ternak.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -47,15 +47,15 @@ class LivestockPhotoController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findLivestock = Livestock::find($livestockId);
 
         if (!$findLivestock) {
             return response()->json([
-                'message' => 'Hewan ternak tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -84,7 +84,7 @@ class LivestockPhotoController extends Controller
             ]);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
@@ -98,8 +98,8 @@ class LivestockPhotoController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findLivestockPhoto = LivestockPhoto::find($id);
@@ -109,7 +109,7 @@ class LivestockPhotoController extends Controller
 
         if (!$findLivestockPhoto) {
             return response()->json([
-                'message' => 'Foto hewan ternak tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -122,7 +122,7 @@ class LivestockPhotoController extends Controller
         } else {
             return response()->json([
                 
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 

@@ -17,8 +17,8 @@ class PaymentController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $profileId = $profile->id;
@@ -41,13 +41,13 @@ class PaymentController extends Controller
             })->get();
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
         if ($payments->isEmpty()) {
             return response()->json([
-                'message' => 'Tidak ada pembayaran.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -63,15 +63,15 @@ class PaymentController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findTransaction = Transaction::find($transactionId);
 
         if (!$findTransaction) {
             return response()->json([
-                'message' => 'Transaksi tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -95,7 +95,7 @@ class PaymentController extends Controller
             ]);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
@@ -111,15 +111,15 @@ class PaymentController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         if ($user->hasRole(['admin', 'seller', 'buyer'])) {
             $findPayment = Payment::with('transaction', 'transaction.profile', 'transaction.animal', 'transaction.animal.farmAnimal', 'transaction.animal.farmAnimalSpecies', 'transaction.animal.profile')->find($id);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
@@ -133,7 +133,7 @@ class PaymentController extends Controller
             ], 201);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
     }
@@ -145,15 +145,15 @@ class PaymentController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findPayment = Payment::find($id);
 
         if (!$findPayment) {
             return response()->json([
-                'message' => 'Pembayaran tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -169,7 +169,7 @@ class PaymentController extends Controller
             $findPayment->update($validatedData);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
@@ -185,15 +185,15 @@ class PaymentController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findPayment = Payment::find($id);
 
         if (!$findPayment) {
             return response()->json([
-                'message' => 'Pembayaran tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -201,7 +201,7 @@ class PaymentController extends Controller
             $findPayment->delete();
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 

@@ -17,8 +17,8 @@ class TransactionController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $profileId = $profile->id;
@@ -33,13 +33,13 @@ class TransactionController extends Controller
             $transactions = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'livestock.livestockSpecies', 'livestock.profile')->where('profile_id', $profileId)->get();
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
         if ($transactions->isEmpty()) {
             return response()->json([
-                'message' => 'Tidak ada transaksi.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -55,15 +55,15 @@ class TransactionController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findLivestock = Livestock::find($livestockId);
 
         if (!$findLivestock) {
             return response()->json([
-                'message' => 'Hewan ternak tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -94,7 +94,7 @@ class TransactionController extends Controller
             ]);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
@@ -110,21 +110,21 @@ class TransactionController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         if ($user->hasRole(['admin', 'seller', 'buyer'])) {
             $findTransaction = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'livestock.livestockSpecies', 'livestock.profile')->find($id);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
         if (!$findTransaction) {
             return response()->json([
-                'message' => 'Transaksi tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -138,7 +138,7 @@ class TransactionController extends Controller
             ], 201);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
     }
@@ -150,15 +150,15 @@ class TransactionController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findTransaction = Transaction::find($id);
 
         if (!$findTransaction) {
             return response()->json([
-                'message' => 'Transaksi tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -175,7 +175,7 @@ class TransactionController extends Controller
             $findTransaction->update($validatedData);
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
@@ -191,15 +191,15 @@ class TransactionController extends Controller
 
         if (!$profile) {
             return response()->json([
-                'message' => 'Silahkan atur Profil Anda terlebih dahulu.'
-            ], 404);
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
         }
 
         $findTransaction = Transaction::find($id);
 
         if (!$findTransaction) {
             return response()->json([
-                'message' => 'Transaksi tidak ditemukan.'
+                'message' => 'Tidak ditemukan.'
             ], 404);
         }
 
@@ -207,7 +207,7 @@ class TransactionController extends Controller
             $findTransaction->delete();
         } else {
             return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
+                'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
 
