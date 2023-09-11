@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum('gender', ['Male', 'Female']);
             $table->integer('age', false, 10);
             $table->decimal('price', 10, 0);
-            $table->boolean('sold');
+            $table->boolean('status');
             $table->string('detail');
             $table->timestamps();
 

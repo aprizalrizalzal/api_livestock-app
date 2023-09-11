@@ -59,12 +59,15 @@ class LivestockPhotoController extends Controller
             ], 404);
         }
 
+        $profileId = $profile->id;
+        $livestockProfileId = $findLivestock->profile->id;
+
         $existingPhotosCount = $findLivestock->livestockPhotos()->count();
         $maxPhotoCount = 6;
 
         if ($existingPhotosCount >= $maxPhotoCount) {
             return response()->json([
-                'message' => 'Anda telah mencapai batas maksimum foto hewan.'
+                'message' => 'Anda telah mencapai batas maksimum jumlah foto hewan ternak.'
             ], 403);
         }
 
@@ -74,10 +77,16 @@ class LivestockPhotoController extends Controller
 
         $path = $validatedData['photo']->store('photos/livestock');
 
-        $createLivestockPhoto = LivestockPhoto::create([
-            'livestock_id' => $findLivestock->id,
-            'photo_url' => $path,
-        ]);
+        if ($user->hasRole(['admin', 'seller']) && $profileId === $livestockProfileId) {
+            $createLivestockPhoto = LivestockPhoto::create([
+                'livestock_id' => $findLivestock->id,
+                'photo_url' => $path,
+            ]);
+        } else {
+            return response()->json([
+                'message' => 'Anda tidak memiliki izin.'
+            ], 403);
+        }
 
         return response()->json(['livestockPhoto' => $createLivestockPhoto], 201);
     }
@@ -95,6 +104,9 @@ class LivestockPhotoController extends Controller
 
         $findLivestockPhoto = LivestockPhoto::find($id);
 
+        $profileId = $profile->id;
+        $livestockProfileId = $findLivestockPhoto->livestock->profile->id;
+
         if (!$findLivestockPhoto) {
             return response()->json([
                 'message' => 'Foto hewan ternak tidak ditemukan.'
@@ -105,7 +117,7 @@ class LivestockPhotoController extends Controller
             Storage::delete($findLivestockPhoto->photo_url);
         }
 
-        if ($user->hasRole(['admin', 'seller'])) {
+        if ($user->hasRole(['admin', 'seller']) && $profileId === $livestockProfileId) {
             $findLivestockPhoto->delete();
         } else {
             return response()->json([

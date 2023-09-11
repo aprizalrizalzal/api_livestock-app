@@ -26,10 +26,9 @@ class TransactionController extends Controller
         if ($user->hasRole(['admin'])) {
             $transactions = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'livestock.livestockSpecies', 'livestock.profile')->get();
         } else if ($user->hasRole(['seller'])) {
-            $transactions = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'livestock.livestockSpecies', 'livestock.profile')
-                ->whereHas('livestock', function ($query) use ($profileId) {
-                    $query->where('profile_id', $profileId);
-                })->get();
+            $transactions = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'livestock.livestockSpecies', 'livestock.profile')->whereHas('livestock', function ($query) use ($profileId) {
+                $query->where('profile_id', $profileId);
+            })->get();
         } else if ($user->hasRole(['buyer'])) {
             $transactions = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'livestock.livestockSpecies', 'livestock.profile')->where('profile_id', $profileId)->get();
         } else {
@@ -69,8 +68,9 @@ class TransactionController extends Controller
         }
 
         $profileId = $profile->id;
+        $livestockProfileId = $findLivestock->profile->id;
 
-        if ($findLivestock->profile->id === $profileId) {
+        if ($profileId === $livestockProfileId) {
             return response()->json([
                 'message' => 'Anda tidak bisa melakukan transaksi pada hewan ternak ini (produk).'
             ], 400);
@@ -84,7 +84,7 @@ class TransactionController extends Controller
             ], 400);
         }
 
-        if ($user->hasRole(['admin', 'seller', 'buyer'])) {
+        if ($user->hasRole(['buyer'])) {
             $transaction = Transaction::create([
                 'profile_id' => $profile->id,
                 'livestock_id' => $findLivestock->id,
@@ -115,22 +115,32 @@ class TransactionController extends Controller
         }
 
         if ($user->hasRole(['admin', 'seller', 'buyer'])) {
-            $transaction = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'livestock.livestockSpecies', 'livestock.profile')->find($id);
+            $findTransaction = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'livestock.livestockSpecies', 'livestock.profile')->find($id);
         } else {
             return response()->json([
                 'message' => 'Anda tidak memiliki izin.'
             ], 403);
         }
 
-        if (!$transaction) {
+        if (!$findTransaction) {
             return response()->json([
                 'message' => 'Transaksi tidak ditemukan.'
             ], 404);
         }
 
-        return response()->json([
-            'transaction' => $transaction
-        ], 201);
+        $profileId = $profile->id;
+        $transactionProfileId = $findTransaction->livestock->profile->id;
+        $transactionBuyerProfileId = $findTransaction->profile_id;
+
+        if ($user->hasRole(['admin']) || ($profileId === $transactionProfileId || $profileId === $transactionBuyerProfileId)) {
+            return response()->json([
+                'transaction' => $findTransaction
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Anda tidak memiliki izin.'
+            ], 403);
+        }
     }
 
     public function putTransactionById(Request $request, string $id)
@@ -152,12 +162,16 @@ class TransactionController extends Controller
             ], 404);
         }
 
+        $profileId = $profile->id;
+        $transactionProfileId = $findTransaction->livestock->profile->id;
+        $transactionBuyerProfileId = $findTransaction->profile_id;
+
         $validatedData = $request->validate([
             'status' => 'required|boolean',
             'method' => '',
         ]);
 
-        if ($user->hasRole(['admin', 'seller', 'buyer'])) {
+        if ($user->hasRole(['admin']) || ($profileId === $transactionProfileId || $profileId === $transactionBuyerProfileId)) {
             $findTransaction->update($validatedData);
         } else {
             return response()->json([

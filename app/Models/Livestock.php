@@ -19,7 +19,7 @@ class Livestock extends Model
         'age',
         'gender',
         'price',
-        'sold',
+        'status',
         'detail',
     ];
 

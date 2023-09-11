@@ -82,7 +82,7 @@ class LivestockController extends Controller
                 'age' => $validatedData['age'],
                 'gender' => $validatedData['gender'],
                 'price' => $validatedData['price'],
-                'sold' => false,
+                'status' => false,
                 'detail' => $validatedData['detail'],
             ]);
         } else {
@@ -206,6 +206,7 @@ class LivestockController extends Controller
             'age' => 'required',
             'gender' => 'required',
             'price' => 'required',
+            'status' => 'boolean',
             'detail' => 'required',
         ]);
 

@@ -27,8 +27,10 @@ class PaymentController extends Controller
             $payments = Payment::with('transaction', 'transaction.profile', 'transaction.livestock', 'transaction.livestock.livestockType', 'transaction.livestock.livestockSpecies', 'transaction.livestock.profile')->get();
         } else if ($user->hasRole(['seller'])) {
             $payments = Payment::with('transaction', 'transaction.profile', 'transaction.livestock', 'transaction.livestock.livestockType', 'transaction.livestock.livestockSpecies', 'transaction.livestock.profile')->whereHas('transaction', function ($query) use ($profileId) {
-                $query->whereHas('profile', function ($query) use ($profileId) {
-                    $query->where('id', $profileId);
+                $query->whereHas('livestock', function ($query) use ($profileId) {
+                    $query->whereHas('profile', function ($query) use ($profileId) {
+                        $query->where('id', $profileId);
+                    });
                 });
             })->get();
         } else if ($user->hasRole(['buyer'])) {
@@ -74,22 +76,17 @@ class PaymentController extends Controller
         }
 
         $profileId = $profile->id;
-
-        if ($findTransaction->profile->id !== $profileId) {
-            return response()->json([
-                'message' => 'Anda tidak memiliki izin.'
-            ], 403);
-        }
+        $transactionProfileId = $findTransaction->profile->id;
 
         $existingPayment = Payment::where('transaction_id', $transactionId)->first();
 
-        if ($existingPayment) {
+        if ($profileId !== $transactionProfileId || $existingPayment) {
             return response()->json([
                 'message' => 'Pembayaran untuk transaksi ini sudah ada.'
             ], 400);
         }
 
-        if ($user->hasRole(['admin', 'seller', 'buyer'])) {
+        if ($user->hasRole(['buyer'])) {
             $payment = Payment::create([
                 'transaction_id' => $findTransaction->id,
                 'date' => Carbon::now(),
@@ -126,9 +123,19 @@ class PaymentController extends Controller
             ], 403);
         }
 
-        return response()->json([
-            'payment' => $findPayment
-        ], 201);
+        $profileId = $profile->id;
+        $paymentProfileId = $findPayment->transaction->livestock->profile->id;
+        $paymentBuyerProfileId = $findPayment->transaction->profile_id;
+
+        if ($user->hasRole(['admin']) || ($profileId === $paymentProfileId || $profileId === $paymentBuyerProfileId)) {
+            return response()->json([
+                'payment' => $findPayment
+            ], 201);
+        } else {
+            return response()->json([
+                'message' => 'Anda tidak memiliki izin.'
+            ], 403);
+        }
     }
 
     public function putPaymentById(Request $request, string $id)
@@ -150,11 +157,15 @@ class PaymentController extends Controller
             ], 404);
         }
 
+        $profileId = $profile->id;
+        $paymentProfileId = $findPayment->transaction->livestock->profile->id;
+        $paymentBuyerProfileId = $findPayment->transaction->profile_id;
+
         $validatedData = $request->validate([
             'status' => 'required',
         ]);
 
-        if ($user->hasRole(['admin', 'seller', 'buyer'])) {
+        if ($user->hasRole(['admin']) || ($profileId === $paymentProfileId || $profileId === $paymentBuyerProfileId)) {
             $findPayment->update($validatedData);
         } else {
             return response()->json([
@@ -186,7 +197,7 @@ class PaymentController extends Controller
             ], 404);
         }
 
-        if ($user->hasRole(['admin', 'seller'])) {
+        if ($user->hasRole(['admin'])) {
             $findPayment->delete();
         } else {
             return response()->json([
