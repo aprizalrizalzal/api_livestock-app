@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
@@ -22,6 +23,13 @@ class Livestock extends Model
         'status',
         'detail',
     ];
+
+    protected function photoUrl (): Attribute
+    {
+        return Attribute::make(
+            get: fn ($photo_url) => asset('/storage/' . $photo_url),
+        );
+    }
 
     public function profile()
     {

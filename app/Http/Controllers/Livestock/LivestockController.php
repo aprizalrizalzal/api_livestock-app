@@ -9,9 +9,39 @@ use Illuminate\Support\Facades\Storage;
 
 class LivestockController extends Controller
 {
-    public function getLivestocks()
+    public function getLivestocksAnonymous()
     {
         $livestocks = Livestock::with('profile', 'livestockType', 'livestockSpecies')->get();
+
+        if (!$livestocks) {
+            return response()->json([
+                'message' => 'Tidak ditemukan.'
+            ], 404);
+        }
+
+        return response()->json([
+            'livestocks' => $livestocks
+        ], 200);
+    }
+
+    public function getLivestocks(Request $request)
+    {
+        $user = $request->user();
+        $profile = $user->profile;
+
+        if (!$profile) {
+            return response()->json([
+                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+            ], 302);
+        }
+
+        $profileId = $profile->id;
+
+        if ($user->hasRole(['seller'])) {
+            $livestocks = Livestock::with('profile', 'livestockType', 'livestockSpecies')->where('profile_id', $profileId)->get();
+        } else {
+            $livestocks = Livestock::with('profile', 'livestockType', 'livestockSpecies')->get();
+        }
 
         if (!$livestocks) {
             return response()->json([
@@ -35,7 +65,7 @@ class LivestockController extends Controller
             ], 302);
         }
         
-        if ($user->hasRole(['admin', 'seller'])) {
+        if ($user->hasRole(['admin'])) {
             $livestocks = Livestock::with('profile', 'livestockType', 'livestockSpecies')->where('profile_id', $profileId)->get();
         } else {
             return response()->json([
@@ -246,7 +276,7 @@ class LivestockController extends Controller
 
         $profileId = $profile->id;
 
-        if ($user->hasRole(['admin', 'seller']) || $findLivestock->profile_id === $profileId) {
+        if ($user->hasRole(['admin']) || ($user->hasRole(['seller']) && $findLivestock->profile_id === $profileId)) {
             $findLivestock->delete();
         } else {
             return response()->json([

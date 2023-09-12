@@ -27,10 +27,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('livestocks-anonymous', [LivestockController::class, 'getLivestocksAnonymous']);
+
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-
-Route::get('livestocks', [LivestockController::class, 'getLivestocks']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // Users
@@ -47,6 +47,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('profile', [ProfileController::class, 'deleteProfile']);
 
     // Livestocks
+    Route::get('livestocks', [LivestockController::class, 'getLivestocks']);
     Route::get('livestocks/{profile_id}', [LivestockController::class, 'getLivestockByIdProfile']);
     Route::post('livestock', [LivestockController::class, 'postLivestock']);
     Route::post('livestock-photo/{id}', [LivestockController::class, 'postLivestockPhotoById']);

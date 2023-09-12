@@ -15,7 +15,7 @@ class UserController extends Controller
         $user = $request->user();
 
         if ($user->hasRole(['admin'])) {
-            $users = User::with('profile', 'roles')->get();
+            $users = User::with('profile', 'roles', 'permissions')->get();
         } else {
             return response()->json([
                 'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
@@ -26,59 +26,6 @@ class UserController extends Controller
             'users' => $users
         ], 200);
     }
-
-    // public function putUserEmail(Request $request)
-    // {
-    //     $user = $request->user();
-
-    //     $validatedData = $request->validate([
-    //         'email' => 'required|string|email|unique:users',
-    //     ]);
-
-    //     $emailChanged = $user->email !== $validatedData['email'];
-
-    //     $user->update($validatedData);
-
-    //     if ($emailChanged) {
-    //         if ($user->hasVerifiedEmail()) {
-    //             $user->email_verified_at = null;
-    //             $user->save();
-    //         }
-
-    //         $user->sendEmailVerificationNotification();
-
-    //         return response()->json([
-    //             'message' => 'Email berhasil diperbarui, silakan verifikasi email baru.'
-    //         ], 200);
-    //     }
-
-    //     return response()->json([
-    //         'message' => 'Email berhasil diperbarui.'
-    //     ], 200);
-    // }
-
-    // public function putUserPassword(Request $request)
-    // {
-    //     $user = $request->user();
-
-    //     $validatedData = $request->validate([
-    //         'password_old' => 'required',
-    //         'password' => 'required|string|min:8|confirmed',
-    //     ]);
-
-    //     if (!Hash::check($validatedData['password_old'], $user->password)) {
-    //         throw ValidationException::withMessages([
-    //             'password_old' => ['Password lama yang dimasukkan tidak cocok.'],
-    //         ]);
-    //     }
-
-    //     $user->password = Hash::make($validatedData['password']);
-    //     $user->save();
-
-    //     return response()->json([
-    //         'message' => 'Password berhasil diperbarui.'
-    //     ], 200);
-    // }
 
     public function getuserById(Request $request, string $id)
     {
