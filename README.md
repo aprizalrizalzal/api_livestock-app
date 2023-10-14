@@ -43,17 +43,13 @@ Dengan langkah-langkah ini, Anda sekarang seharusnya dapat menjalankan API Lives
 
 ### Default akun testing dari proses seeding
 1. Role admin (Administrator)
-   email: admin@example.com
-   password: password
+   - email: admin@example.com
+   - password: password
 2. Role seller (Penjual)
-   email: seller_satu@example.com
-   password: password
-   
-   email: seller_dua@example.com
-   password: password
+   - email: seller_satu@example.com 
+   - email: seller_dua@example.com
+   - password: password
 3. Role buyer (Pembeli)
-   email: buyer_satu@example.com
-   password: password
-   
-   email: buyer_dua@example.com
-   password: password
+   - email: buyer_satu@example.com
+   - email: buyer_dua@example.com
+   - password: password
