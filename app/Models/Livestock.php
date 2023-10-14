@@ -24,6 +24,20 @@ class Livestock extends Model
         'detail',
     ];
 
+    protected $casts = [
+        'price' => 'float',
+    ];
+
+    public function getPriceAttribute($value)
+    {
+        return (float) $value;
+    }
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = (float) $value;
+    }
+
     protected function photoUrl (): Attribute
     {
         return Attribute::make(

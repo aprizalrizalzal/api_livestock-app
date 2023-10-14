@@ -100,7 +100,7 @@ class LivestockController extends Controller
             'livestock_species_id' => 'required',
             'age' => 'required',
             'gender' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric',
             'detail' => 'required',
         ]);
 
@@ -235,7 +235,7 @@ class LivestockController extends Controller
             'livestock_species_id' => 'required',
             'age' => 'required',
             'gender' => 'required',
-            'price' => 'required',
+            'price' => 'required|numeric',
             'status' => 'boolean',
             'detail' => 'required',
         ]);

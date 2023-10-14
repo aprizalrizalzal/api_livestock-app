@@ -18,6 +18,20 @@ class Payment extends Model
         'status',
     ];
 
+    protected $casts = [
+        'price' => 'float',
+    ];
+
+    public function getPriceAttribute($value)
+    {
+        return (float) $value;
+    }
+
+    public function setPriceAttribute($value)
+    {
+        $this->attributes['price'] = (float) $value;
+    }
+
     public function transaction()
     {
         return $this->belongsTo(Transaction::class);

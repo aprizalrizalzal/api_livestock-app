@@ -102,7 +102,9 @@ class ProfileController extends Controller
             'photo_url' => null,
         ]);
 
-        return response()->json(['profile' => $profile], 200);
+        return response()->json([
+            'profile' => $profile
+        ], 200);
     }
 
     public function putProfile(Request $request)

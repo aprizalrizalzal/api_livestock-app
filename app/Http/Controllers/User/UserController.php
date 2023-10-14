@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -24,6 +26,25 @@ class UserController extends Controller
 
         return response()->json([
             'users' => $users
+        ], 200);
+    }
+
+    public function getRoles()
+    {
+        $roles = Role::all();
+
+        return response()->json([
+            'roles' => $roles
+        ], 200);
+    }
+
+    public function getPermissions()
+    {
+        $permissions = Permission::all();
+        
+
+        return response()->json([
+            'permissions' => $permissions
         ], 200);
     }
 
