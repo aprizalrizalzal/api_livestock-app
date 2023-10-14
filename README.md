@@ -53,3 +53,21 @@ Dengan langkah-langkah ini, Anda sekarang seharusnya dapat menjalankan API Lives
    - email: buyer_satu@example.com
    - email: buyer_dua@example.com
    - password: password
+  
+## Tambahan: Mengatasi Masalah Instalasi Package Composer
+
+Jika Anda mengalami kegagalan saat menginstal package Composer, Anda dapat mencoba langkah-langkah berikut:
+
+1. **Konfigurasi XMPP untuk Apache:**
+
+   - Buka konfigurasi XMPP pada Apache dan cari opsi Config (Konfigurasi) PHP(php.ini).
+   - Cari baris yang berisi `;extension=zip` dan hilangkan tanda `;` (titik koma) di awal baris.
+   - Simpan perubahan dengan menekan `Ctrl+S`.
+   - Tutup file konfigurasi dan coba lagi menjalankan perintah instalasi Composer.
+
+2. **Jalankan Perintah Instalasi Composer:**
+
+   Setelah melakukan konfigurasi di atas, coba kembali menjalankan perintah instalasi Composer:
+
+   ```shell
+   composer install
