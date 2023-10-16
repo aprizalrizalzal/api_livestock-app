@@ -30,13 +30,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('livestocks-anonymous', [LivestockController::class, 'getLivestocksAnonymous']);
 
 Route::post('register', [AuthController::class, 'register']);
+Route::get('roles', [UserController::class, 'getRoles']);
+Route::get('permissions', [UserController::class, 'getPermissions']);
+
 Route::post('login', [AuthController::class, 'login']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // Users
     Route::get('users', [UserController::class, 'getUsers']);
-    Route::get('roles', [UserController::class, 'getRoles']);
-    Route::get('permissions', [UserController::class, 'getPermissions']);
     Route::get('user/{id}', [UserController::class, 'getUserById']);
     Route::delete('user/{id}', [UserController::class, 'deleteUserById']);
 

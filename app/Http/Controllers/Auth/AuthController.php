@@ -7,6 +7,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -15,18 +17,21 @@ class AuthController extends Controller
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|min:8|confirmed'
+            'password' => 'required|string|min:8|confirmed',
+            'role' => 'required',
         ]);
-
+        
+        $selectedRole = Role::findByName($validatedData['role']);
+    
         $user = User::create([
             'name' => $validatedData['name'],
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password'])
-        ])->assignRole('buyer')->givePermissionTo('user');
-
+        ])->assignRole($selectedRole)->givePermissionTo('user');;
+    
         $user->tokens()->delete();
         $token = $user->createToken('api_token')->plainTextToken;
-
+    
         return response()->json([
             'user' => $user,
             'token' => $token
