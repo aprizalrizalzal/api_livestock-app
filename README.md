@@ -23,23 +23,27 @@
    composer install
    ```
    Tunggu hingga proses instalasi selesai.
-10. Setelah instalasi selesai, jalankan perintah berikut untuk melakukan migrasi ke database:
+10. Setelah instalasi selesai, silakan copy .env.example, kemudian rename hasil copy menjadi .env dan ubah FILESYSTEM_DISK=local menjadi FILESYSTEM_DISK=public.
+11. Lanjut, jalankan perintah berikut untuk menghubungkan penyimpanan dengan sistem file publik. 
+    ```shell php artisan storage:link ```
+    Tunggu hingga berhasil terhubung
+12. Lanjut, jalankan perintah berikut untuk melakukan migrasi ke database:
     ```shell
     php artisan migrate
     ```
     Tunggu hingga proses migrasi ke database selesai.
-11. Setelah database berhasil dibuat, jalankan perintah berikut untuk mengisi database dengan data awal (seeder):
+13. Setelah database berhasil dibuat, jalankan perintah berikut untuk mengisi database dengan data awal (seeder):
     ```shell
     php artisan db:seed
     ```
     Tunggu hingga proses seeding selesai.
-12. Terakhir, jalankan perintah berikut untuk menjalankan server:
+14. Terakhir, jalankan perintah berikut untuk menjalankan server:
     ```shell
     php artisan serve
     ```
     Tunggu hingga Anda melihat pemberitahuan INFO di terminal yang menyatakan bahwa server berjalan pada [http://127.0.0.1:8000].
 
-Dengan langkah-langkah ini, Anda sekarang seharusnya dapat menjalankan API Livestock App dengan sukses. Pastikan untuk mengikuti langkah-langkah ini dengan hati-hati untuk memastikan semua alat dan aplikasi berfungsi dengan benar.
+Dengan langkah-langkah ini, sekarang seharusnya dapat menjalankan API Livestock App dengan sukses. Pastikan untuk mengikuti langkah-langkah ini dengan hati-hati untuk memastikan semua alat dan aplikasi berfungsi dengan benar.
 
 ### Default akun testing dari proses seeding
 1. Role admin (Administrator)
@@ -71,3 +75,4 @@ Jika Anda mengalami kegagalan saat menginstal package Composer, Anda dapat menco
 
    ```shell
    composer install
+   ```
