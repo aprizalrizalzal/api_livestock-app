@@ -25,19 +25,21 @@
    Tunggu hingga proses instalasi selesai.
 10. Setelah instalasi selesai, silakan copy .env.example, kemudian rename hasil copy menjadi .env dan ubah FILESYSTEM_DISK=local menjadi FILESYSTEM_DISK=public.
 11. Lanjut, jalankan perintah berikut untuk menghubungkan penyimpanan dengan sistem file publik. 
-    ```shell php artisan storage:link ```
+    ```shell
+    php artisan storage:link
+    ```
     Tunggu hingga berhasil terhubung
-12. Lanjut, jalankan perintah berikut untuk melakukan migrasi ke database:
+13. Lanjut, jalankan perintah berikut untuk melakukan migrasi ke database:
     ```shell
     php artisan migrate
     ```
     Tunggu hingga proses migrasi ke database selesai.
-13. Setelah database berhasil dibuat, jalankan perintah berikut untuk mengisi database dengan data awal (seeder):
+14. Setelah database berhasil dibuat, jalankan perintah berikut untuk mengisi database dengan data awal (seeder):
     ```shell
     php artisan db:seed
     ```
     Tunggu hingga proses seeding selesai.
-14. Terakhir, jalankan perintah berikut untuk menjalankan server:
+15. Terakhir, jalankan perintah berikut untuk menjalankan server:
     ```shell
     php artisan serve
     ```
