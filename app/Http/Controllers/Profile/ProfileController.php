@@ -74,7 +74,8 @@ class ProfileController extends Controller
             Storage::delete($profile->photo_url);
         }
 
-        $path = $validatedData['photo']->store('photos/profile');
+        $uniqueName = time();
+        $path = $validatedData['photo']->storeAs('photos/profile', $uniqueName, 'public');
 
         $profile->update([
             'photo_url' => $path,

@@ -75,7 +75,8 @@ class LivestockPhotoController extends Controller
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
         ]);
 
-        $path = $validatedData['photo']->store('photos/livestock');
+        $uniqueName = time();
+        $path = $validatedData['photo']->storeAs('photos/livestock', $uniqueName, 'public');
 
         if ($user->hasRole(['admin', 'seller']) && $profileId === $livestockProfileId) {
             $createLivestockPhoto = LivestockPhoto::create([
@@ -121,7 +122,7 @@ class LivestockPhotoController extends Controller
             $findLivestockPhoto->delete();
         } else {
             return response()->json([
-                
+
                 'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }

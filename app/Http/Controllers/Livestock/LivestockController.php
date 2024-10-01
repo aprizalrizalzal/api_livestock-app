@@ -64,7 +64,7 @@ class LivestockController extends Controller
                 'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
             ], 302);
         }
-        
+
         if ($user->hasRole(['admin'])) {
             $livestocks = Livestock::with('profile', 'livestockType', 'livestockSpecies')->where('profile_id', $profileId)->get();
         } else {
@@ -153,7 +153,8 @@ class LivestockController extends Controller
             Storage::delete($findLivestock->photo_url);
         }
 
-        $path = $validatedData['photo']->store('photos/livestock');
+        $uniqueName = time();
+        $path = $validatedData['photo']->storeAs('photos/livestock', $uniqueName, 'public');
 
         $findLivestock->update([
             'photo_url' => $path,
@@ -174,7 +175,7 @@ class LivestockController extends Controller
                 'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
             ], 302);
         }
-        
+
         $findLivestock = Livestock::find($id);
 
         if (!$findLivestock) {
