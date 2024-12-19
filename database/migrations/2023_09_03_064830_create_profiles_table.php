@@ -15,9 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('photo_url')->nullable();
             $table->string('name', 50);
-            $table->enum('gender', ['Male', 'Female']);
-            $table->string('phone_number', 12);
-            $table->text('address', 100);
+            $table->enum('gender', ['Male', 'Female'])->nullable();
+            $table->string('phone_number', 12)->nullable();
+            $table->text('address', 100)->nullable();
             $table->timestamps();
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
