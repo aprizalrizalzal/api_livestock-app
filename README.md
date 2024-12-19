@@ -69,7 +69,7 @@ Jika Anda mengalami kegagalan saat menginstal package Composer, Anda dapat menco
    - Buka konfigurasi XMPP pada Apache dan cari opsi Config (Konfigurasi) PHP(php.ini).
    - Cari baris yang berisi `;extension=zip` dan hilangkan tanda `;` (titik koma) di awal baris.
    - Simpan perubahan dengan menekan `Ctrl+S`.
-   - Tutup file konfigurasi dan coba lagi menjalankan perintah instalasi Composer.
+   - Tutup file konfigurasi dan coba lagi untuk menjalankan perintah instalasi Composer.
 
 2. **Jalankan Perintah Instalasi Composer:**
 
