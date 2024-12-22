@@ -19,6 +19,7 @@ class LivestockTypeController extends Controller
         }
 
         return response()->json([
+            'message' => 'Jenis Hewan ternak berhasil diambil!.',
             'livestockTypes' => $livestockTypes
         ], 201);
     }
@@ -28,9 +29,9 @@ class LivestockTypeController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -57,21 +58,13 @@ class LivestockTypeController extends Controller
         }
 
         return response()->json([
+            'message' => 'Jenis Hewan ternak berhasil dibuat!.',
             'livestockType' => $LivestockType
         ], 201);
     }
 
-    public function getLivestockTypeById(Request $request, string $id)
+    public function getLivestockTypeById(string $id)
     {
-        $user = $request->user();
-        $profile = $user->profile;
-
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
-
         $findLivestockType = LivestockType::with('livestockSpecies')->find($id);
 
         if (!$findLivestockType) {
@@ -81,6 +74,7 @@ class LivestockTypeController extends Controller
         }
 
         return response()->json([
+            'message' => 'Jenis Hewan ternak berhasil diambil!.',
             'livestockType' => $findLivestockType
         ], 201);
     }
@@ -90,9 +84,9 @@ class LivestockTypeController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -117,6 +111,7 @@ class LivestockTypeController extends Controller
         }
 
         return response()->json([
+            'message' => 'Jenis Hewan ternak berhasil diubah!.',
             'livestockType' => $findLivestockType
         ], 200);
     }
@@ -126,9 +121,9 @@ class LivestockTypeController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 

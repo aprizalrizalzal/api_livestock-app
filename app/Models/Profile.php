@@ -19,6 +19,7 @@ class Profile extends Model
         'name',
         'gender',
         'phone_number',
+        'phone_number_verified_at',
         'address',
     ];
 

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->date('date');
             $table->decimal('price', 10, 0);
-            $table->boolean('status');
+            $table->boolean('status')->default(false);
             $table->timestamps();
 
             $table->foreignId('transaction_id')->constrained()->onDelete('cascade');

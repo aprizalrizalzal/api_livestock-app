@@ -25,6 +25,7 @@ class UserController extends Controller
         }
 
         return response()->json([
+            'message' => 'Pengguna berhasil diambil!',
             'users' => $users
         ], 200);
     }
@@ -41,7 +42,6 @@ class UserController extends Controller
     public function getPermissions()
     {
         $permissions = Permission::all();
-        
 
         return response()->json([
             'permissions' => $permissions
@@ -65,8 +65,9 @@ class UserController extends Controller
                 'message' => 'Tidak ditemukan.'
             ], 404);
         }
-        
+
         return response()->json([
+            'message' => 'Pengguna berhasil diambil!',
             'user' => $findUser
         ], 200);
     }

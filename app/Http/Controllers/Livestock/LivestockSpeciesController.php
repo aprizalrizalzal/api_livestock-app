@@ -21,21 +21,13 @@ class LivestockSpeciesController extends Controller
         }
 
         return response()->json([
+            'message' => 'Spesies jenis Hewan ternak berhasil diambil!.',
             'livestockSpecies' => $livestockSpecies
         ], 201);
     }
 
-    public function getLivestockSpeciesByIdLivestockType(Request $request, string $livestockTypeId)
+    public function getLivestockSpeciesByIdLivestockType(string $livestockTypeId)
     {
-        $user = $request->user();
-        $profile = $user->profile;
-
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
-
         $findLivestockType = LivestockType::find($livestockTypeId);
 
         if (!$findLivestockType) {
@@ -47,6 +39,7 @@ class LivestockSpeciesController extends Controller
         $livestockSpecies = LivestockSpecies::where('livestock_type_id', $livestockTypeId)->get();
 
         return response()->json([
+            'message' => 'Spesies jenis Hewan ternak berhasil diambil!.',
             'livestockSpecies' => $livestockSpecies
         ], 201);
     }
@@ -56,9 +49,9 @@ class LivestockSpeciesController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -86,21 +79,13 @@ class LivestockSpeciesController extends Controller
         }
 
         return response()->json([
+            'message' => 'Spesies jenis Hewan ternak berhasil dibuat!.',
             'livestockSpecies' => $livestockSpecies
         ], 201);
     }
 
-    public function getLivestockSpeciesById(Request $request, string $id)
+    public function getLivestockSpeciesById(string $id)
     {
-        $user = $request->user();
-        $profile = $user->profile;
-
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
-
         $findLivestockSpecies = LivestockSpecies::find($id);
 
         if (!$findLivestockSpecies) {
@@ -110,6 +95,7 @@ class LivestockSpeciesController extends Controller
         }
 
         return response()->json([
+            'message' => 'Spesies jenis Hewan ternak berhasil diambil!.',
             'livestockSpecies' => $findLivestockSpecies
         ], 201);
     }
@@ -119,9 +105,9 @@ class LivestockSpeciesController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -146,6 +132,7 @@ class LivestockSpeciesController extends Controller
         }
 
         return response()->json([
+            'message' => 'Spesies jenis Hewan ternak berhasil diubah!.',
             'livestockSpecies' => $findLivestockSpecies
         ], 200);
     }
@@ -155,9 +142,9 @@ class LivestockSpeciesController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 

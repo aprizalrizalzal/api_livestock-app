@@ -75,6 +75,7 @@ class AuthController extends Controller
 
         // Ambil data user yang berhasil login
         $user = $request->user();
+        $user->getRoleNames();
 
         // Hapus token API sebelumnya jika ada
         $user->tokens()->delete();

@@ -20,6 +20,7 @@ class LivestockController extends Controller
         }
 
         return response()->json([
+            'message' => 'Hewan ternak berhasil diambil!.',
             'livestocks' => $livestocks
         ], 200);
     }
@@ -28,12 +29,6 @@ class LivestockController extends Controller
     {
         $user = $request->user();
         $profile = $user->profile;
-
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
 
         $profileId = $profile->id;
 
@@ -50,6 +45,7 @@ class LivestockController extends Controller
         }
 
         return response()->json([
+            'message' => 'Hewan ternak berhasil diambil!.',
             'livestocks' => $livestocks
         ], 200);
     }
@@ -57,13 +53,6 @@ class LivestockController extends Controller
     public function getLivestockByIdProfile(Request $request, string $profileId)
     {
         $user = $request->user();
-        $profile = $user->profile;
-
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
 
         if ($user->hasRole(['admin'])) {
             $livestocks = Livestock::with('profile', 'livestockType', 'livestockSpecies')->where('profile_id', $profileId)->get();
@@ -80,6 +69,7 @@ class LivestockController extends Controller
         }
 
         return response()->json([
+            'message' => 'Hewan ternak berhasil diambil!.',
             'livestocks' => $livestocks
         ], 200);
     }
@@ -89,9 +79,9 @@ class LivestockController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -112,7 +102,6 @@ class LivestockController extends Controller
                 'age' => $validatedData['age'],
                 'gender' => $validatedData['gender'],
                 'price' => $validatedData['price'],
-                'status' => false,
                 'detail' => $validatedData['detail'],
             ]);
         } else {
@@ -122,6 +111,7 @@ class LivestockController extends Controller
         }
 
         return response()->json([
+            'message' => 'Hewan ternak berhasil dibuat!.',
             'livestock' => $livestocks
         ], 201);
     }
@@ -131,9 +121,9 @@ class LivestockController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -161,6 +151,7 @@ class LivestockController extends Controller
         ]);
 
         return response()->json([
+            'message' => 'Foto Hewan ternak berhasil dibuat!.',
             'livestock' => $findLivestock
         ], 200);
     }
@@ -170,9 +161,9 @@ class LivestockController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -193,6 +184,7 @@ class LivestockController extends Controller
         ]);
 
         return response()->json([
+            'message' => 'Foto Hewan ternak berhasil diubah!.',
             'livestock' => $findLivestock
         ], 200);
     }
@@ -208,6 +200,7 @@ class LivestockController extends Controller
         }
 
         return response()->json([
+            'message' => 'Hewan ternak berhasil diambil!.',
             'livestock' => $findLivestock
         ], 200);
     }
@@ -217,9 +210,9 @@ class LivestockController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -252,6 +245,7 @@ class LivestockController extends Controller
         }
 
         return response()->json([
+            'message' => 'Hewan ternak berhasil diambil!.',
             'livestock' => $findLivestock
         ], 200);
     }
@@ -261,9 +255,9 @@ class LivestockController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 

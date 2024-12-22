@@ -13,13 +13,6 @@ class LivestockPhotoController extends Controller
     public function getLivestockPhotosByIdLivestock(Request $request, string $livestockId)
     {
         $user = $request->user();
-        $profile = $user->profile;
-
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
 
         $findLivestock = Livestock::find($livestockId);
 
@@ -37,7 +30,10 @@ class LivestockPhotoController extends Controller
             ], 404);
         }
 
-        return response()->json(['livestockPhotos' => $livestockPhotos], 200);
+        return response()->json([
+            'message' => 'Foto Hewan ternak berhasil diambil!.',
+            'livestockPhotos' => $livestockPhotos
+        ], 200);
     }
 
     public function postLivestockPhotoByIdLivestock(Request $request, string $livestockId)
@@ -45,9 +41,9 @@ class LivestockPhotoController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -89,7 +85,10 @@ class LivestockPhotoController extends Controller
             ], 403);
         }
 
-        return response()->json(['livestockPhoto' => $createLivestockPhoto], 201);
+        return response()->json([
+            'message' => 'Foto Hewan ternak berhasil dibuat!.',
+            'livestockPhoto' => $createLivestockPhoto
+        ], 201);
     }
 
     public function deleteLivestockPhotoById(Request $request, string $id)
@@ -97,9 +96,9 @@ class LivestockPhotoController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 

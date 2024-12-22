@@ -15,12 +15,6 @@ class TransactionController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
-
         $profileId = $profile->id;
 
         if ($user->hasRole(['admin'])) {
@@ -44,6 +38,7 @@ class TransactionController extends Controller
         }
 
         return response()->json([
+            'message' => 'Transaksi berhasil diambil!',
             'transactions' => $transactions
         ], 200);
     }
@@ -53,9 +48,9 @@ class TransactionController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -89,8 +84,6 @@ class TransactionController extends Controller
                 'profile_id' => $profile->id,
                 'livestock_id' => $findLivestock->id,
                 'date' => Carbon::now(),
-                'status' => false,
-                'method' => null,
             ]);
         } else {
             return response()->json([
@@ -99,6 +92,7 @@ class TransactionController extends Controller
         }
 
         return response()->json([
+            'message' => 'Transaksi berhasil dibuat!',
             'transaction' => $transaction
         ], 201);
     }
@@ -107,12 +101,6 @@ class TransactionController extends Controller
     {
         $user = $request->user();
         $profile = $user->profile;
-
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
 
         if ($user->hasRole(['admin', 'seller', 'buyer'])) {
             $findTransaction = Transaction::with('profile', 'livestock', 'livestock.livestockType', 'livestock.livestockSpecies', 'livestock.profile')->find($id);
@@ -134,6 +122,7 @@ class TransactionController extends Controller
 
         if ($user->hasRole(['admin']) || ($profileId === $transactionProfileId || $profileId === $transactionBuyerProfileId)) {
             return response()->json([
+                'message' => 'Transaksi berhasil diambil!',
                 'transaction' => $findTransaction
             ], 201);
         } else {
@@ -148,9 +137,9 @@ class TransactionController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -168,7 +157,6 @@ class TransactionController extends Controller
 
         $validatedData = $request->validate([
             'status' => 'required|boolean',
-            'method' => '',
         ]);
 
         if ($user->hasRole(['admin']) || ($profileId === $transactionProfileId || $profileId === $transactionBuyerProfileId)) {
@@ -180,6 +168,7 @@ class TransactionController extends Controller
         }
 
         return response()->json([
+            'message' => 'Transaksi berhasil diubah!',
             'transaction' => $findTransaction
         ], 200);
     }
@@ -189,9 +178,9 @@ class TransactionController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 

@@ -15,12 +15,6 @@ class PaymentController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
-
         $profileId = $profile->id;
 
         if ($user->hasRole(['admin'])) {
@@ -52,6 +46,7 @@ class PaymentController extends Controller
         }
 
         return response()->json([
+            'message' => 'Pembayaran berhasil diambil!.',
             'payments' => $payments
         ], 200);
     }
@@ -61,9 +56,9 @@ class PaymentController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -91,7 +86,6 @@ class PaymentController extends Controller
                 'transaction_id' => $findTransaction->id,
                 'date' => Carbon::now(),
                 'price' => $findTransaction->livestock->price,
-                'status' => false,
             ]);
         } else {
             return response()->json([
@@ -100,6 +94,7 @@ class PaymentController extends Controller
         }
 
         return response()->json([
+            'message' => 'Pembayaran berhasil dibuat!.',
             'payment' => $payment
         ], 201);
     }
@@ -108,12 +103,6 @@ class PaymentController extends Controller
     {
         $user = $request->user();
         $profile = $user->profile;
-
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
 
         if ($user->hasRole(['admin', 'seller', 'buyer'])) {
             $findPayment = Payment::with('transaction', 'transaction.profile', 'transaction.animal', 'transaction.animal.farmAnimal', 'transaction.animal.farmAnimalSpecies', 'transaction.animal.profile')->find($id);
@@ -129,6 +118,7 @@ class PaymentController extends Controller
 
         if ($user->hasRole(['admin']) || ($profileId === $paymentProfileId || $profileId === $paymentBuyerProfileId)) {
             return response()->json([
+                'message' => 'Pembayaran berhasil diambil!.',
                 'payment' => $findPayment
             ], 201);
         } else {
@@ -143,9 +133,9 @@ class PaymentController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
+                'message' => 'Silahkan verifikasi nomor telpon Anda terlebih dahulu.'
             ], 302);
         }
 
@@ -174,6 +164,7 @@ class PaymentController extends Controller
         }
 
         return response()->json([
+            'message' => 'Pembayaran berhasil diubah!.',
             'payment' => $findPayment
         ], 200);
     }
@@ -183,9 +174,8 @@ class PaymentController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
+       if (!$profile->phone_number_verified_at) {
             return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
             ], 302);
         }
 

@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('photo_url')->nullable();
             $table->string('name', 50);
             $table->enum('gender', ['Male', 'Female'])->nullable();
-            $table->string('phone_number', 12)->nullable();
+            $table->string('phone_number', 15)->nullable();
+            $table->timestamp('phone_number_verified_at')->nullable();
             $table->text('address', 100)->nullable();
             $table->timestamps();
 

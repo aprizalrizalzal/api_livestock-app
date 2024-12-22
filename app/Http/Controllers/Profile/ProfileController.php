@@ -14,13 +14,8 @@ class ProfileController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
-
         return response()->json([
+            'message' => 'Profil berhasil diambil!',
             'profile' => $profile
         ], 200);
     }
@@ -29,19 +24,26 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
+        // Cek apakah profil sudah diatur
         if ($user->profile) {
             return response()->json([
-                'message' => 'Anda sudah mengatur Profil, silahkan atur Foto Profil Anda.'
+                'message' => 'Profil Anda sudah diatur. Silakan tambahkan atau ubah Foto Profil Anda.'
             ], 400);
         }
 
+        // Validasi input
         $validatedData = $request->validate([
             'name' => 'required|string|max:50',
             'gender' => 'required|in:Male,Female',
-            'phone_number' => 'required|numeric',
+            'phone_number' => 'required|string|max:15',
             'address' => 'required|string|max:100',
+        ], [
+            'name.max' => 'Nama tidak boleh lebih dari 50 karakter!',
+            'phone_number.max' => 'Nomor Telepon tidak boleh lebih dari 15 karakter!',
+            'address.max' => 'Alamat tidak boleh lebih dari 100 karakter!',
         ]);
 
+        // Simpan profil baru
         $profile = Profile::create([
             'user_id' => $user->id,
             'name' => $validatedData['name'],
@@ -51,20 +53,16 @@ class ProfileController extends Controller
         ]);
 
         return response()->json([
+            'message' => 'Profil berhasil dibuat!',
             'profile' => $profile
         ], 201);
     }
+
 
     public function postProfilePhoto(Request $request)
     {
         $user = $request->user();
         $profile = $user->profile;
-
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
 
         $validatedData = $request->validate([
             'photo' => 'required|image|mimes:jpeg,png,jpg|max:5120',
@@ -81,19 +79,16 @@ class ProfileController extends Controller
             'photo_url' => $path,
         ]);
 
-        return response()->json(['profile' => $profile], 200);
+        return response()->json([
+            'message' => 'Foto Profil berhasil dibuat!',
+            'profile' => $profile
+        ], 200);
     }
 
     public function putProfilePhoto(Request $request)
     {
         $user = $request->user();
         $profile = $user->profile;
-
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
 
         if ($profile->photo_url) {
             Storage::delete($profile->photo_url);
@@ -104,6 +99,7 @@ class ProfileController extends Controller
         ]);
 
         return response()->json([
+            'message' => 'Foto Profil berhasil diubah!',
             'profile' => $profile
         ], 200);
     }
@@ -113,22 +109,21 @@ class ProfileController extends Controller
         $user = $request->user();
         $profile = $user->profile;
 
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
-
-        $validatedData = $request->validate([
+       $validatedData = $request->validate([
             'name' => 'nullable|string|max:50',
             'gender' => 'required|in:Male,Female',
-            'phone_number' => 'required|numeric',
+            'phone_number' => 'required|string|max:15',
             'address' => 'required|string|max:100',
+        ], [
+            'name.max' => 'Nama tidak boleh lebih dari 50 karakter!',
+            'phone_number.max' => 'Nomor Telepon tidak boleh lebih dari 15 karakter!',
+            'address.max' => 'Alamat tidak boleh lebih dari 100 karakter!',
         ]);
 
         $profile->update($validatedData);
 
         return response()->json([
+            'message' => 'Profil berhasil diubah!',
             'profile' => $profile
         ], 200);
     }
@@ -137,12 +132,6 @@ class ProfileController extends Controller
     {
         $user = $request->user();
         $profile = $user->profile;
-
-        if (!$profile) {
-            return response()->json([
-                'message' => 'Silahkan atur profil Anda terlebih dahulu, untuk bisa menggunakan fitur yang ada pada aplikasi.'
-            ], 302);
-        }
 
         $profile->delete();
 

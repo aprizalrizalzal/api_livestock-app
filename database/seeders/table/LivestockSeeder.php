@@ -27,7 +27,6 @@ class LivestockSeeder extends Seeder
             'gender' => 'Male',
             'age' => 1,
             'price' => 10000000,
-            'status' => false,
             'detail' => 'Test',
         ]);
 
@@ -39,7 +38,6 @@ class LivestockSeeder extends Seeder
             'gender' => 'Male',
             'age' => 2,
             'price' => 12000000,
-            'status' => false,
             'detail' => 'Test',
         ]);
 
@@ -51,7 +49,6 @@ class LivestockSeeder extends Seeder
             'gender' => 'Male',
             'age' => 3,
             'price' => 14000000,
-            'status' => false,
             'detail' => 'Test',
         ]);
 
@@ -63,7 +60,6 @@ class LivestockSeeder extends Seeder
             'gender' => 'Male',
             'age' => 4,
             'price' => 16000000,
-            'status' => false,
             'detail' => 'Test',
         ]);
 
@@ -75,7 +71,6 @@ class LivestockSeeder extends Seeder
             'gender' => 'Male',
             'age' => 5,
             'price' => 18000000,
-            'status' => false,
             'detail' => 'Test',
         ]);
 
@@ -91,7 +86,6 @@ class LivestockSeeder extends Seeder
             'gender' => 'Male',
             'age' => 6,
             'price' => 20000000,
-            'status' => false,
             'detail' => 'Test',
         ]);
 
@@ -103,7 +97,6 @@ class LivestockSeeder extends Seeder
             'gender' => 'Male',
             'age' => 7,
             'price' => 22000000,
-            'status' => false,
             'detail' => 'Test',
         ]);
 
@@ -115,7 +108,6 @@ class LivestockSeeder extends Seeder
             'gender' => 'Male',
             'age' => 8,
             'price' => 24000000,
-            'status' => false,
             'detail' => 'Test',
         ]);
 
@@ -127,7 +119,6 @@ class LivestockSeeder extends Seeder
             'gender' => 'Male',
             'age' => 9,
             'price' => 26000000,
-            'status' => false,
             'detail' => 'Test',
         ]);
 
@@ -139,7 +130,6 @@ class LivestockSeeder extends Seeder
             'gender' => 'Male',
             'age' => 10,
             'price' => 28000000,
-            'status' => false,
             'detail' => 'Test',
         ]);
     }
