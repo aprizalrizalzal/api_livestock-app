@@ -89,20 +89,24 @@ class LivestockController extends Controller
             'livestock_type_id' => 'required',
             'livestock_species_id' => 'required',
             'age' => 'required',
+            'weight' => 'required',
+            'unit' => 'required',
             'gender' => 'required',
-            'price' => 'required|numeric',
-            'detail' => 'required',
+            'price' => 'required',
+            'condition' => 'required',
         ]);
 
-        if ($user->hasRole(['admin', 'seller'])) {
+        if ($user->hasRole(['seller'])) {
             $livestocks = Livestock::create([
                 'profile_id' => $profile->id,
                 'livestock_type_id' => $validatedData['livestock_type_id'],
                 'livestock_species_id' => $validatedData['livestock_species_id'],
                 'age' => $validatedData['age'],
+                'weight' => $validatedData['weight'],
+                'unit' => $validatedData['unit'],
                 'gender' => $validatedData['gender'],
                 'price' => $validatedData['price'],
-                'detail' => $validatedData['detail'],
+                'condition' => $validatedData['condition'],
             ]);
         } else {
             return response()->json([
@@ -228,15 +232,17 @@ class LivestockController extends Controller
             'livestock_type_id' => 'required',
             'livestock_species_id' => 'required',
             'age' => 'required',
+            'weight' => 'required',
+            'unit' => 'required',
             'gender' => 'required',
-            'price' => 'required|numeric',
+            'price' => 'required',
             'status' => 'boolean',
-            'detail' => 'required',
+            'condition' => 'required',
         ]);
 
         $profileId = $profile->id;
 
-        if ($user->hasRole(['admin', 'seller']) || $findLivestock->profile_id === $profileId) {
+        if ($user->hasRole(['seller']) || $findLivestock->profile_id === $profileId) {
             $findLivestock->update($validatedData);
         } else {
             return response()->json([

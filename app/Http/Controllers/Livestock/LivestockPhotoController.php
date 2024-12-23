@@ -74,7 +74,7 @@ class LivestockPhotoController extends Controller
         $uniqueName = time();
         $path = $validatedData['photo']->storeAs('photos/livestock', $uniqueName, 'public');
 
-        if ($user->hasRole(['admin', 'seller']) && $profileId === $livestockProfileId) {
+        if ($user->hasRole(['seller']) && $profileId === $livestockProfileId) {
             $createLivestockPhoto = LivestockPhoto::create([
                 'livestock_id' => $findLivestock->id,
                 'photo_url' => $path,
@@ -117,7 +117,7 @@ class LivestockPhotoController extends Controller
             Storage::delete($findLivestockPhoto->photo_url);
         }
 
-        if ($user->hasRole(['admin', 'seller']) && $profileId === $livestockProfileId) {
+        if ($user->hasRole(['seller']) && $profileId === $livestockProfileId) {
             $findLivestockPhoto->delete();
         } else {
             return response()->json([

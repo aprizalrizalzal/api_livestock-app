@@ -99,10 +99,6 @@ class AuthController extends Controller
         // Hapus semua token API milik user yang sedang logout
         $request->user()->tokens()->delete();
 
-        // Invalidate session untuk keamanan tambahan
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
         // Kembalikan respon sukses
         return response()->json([
             'message' => 'Berhasil keluar',

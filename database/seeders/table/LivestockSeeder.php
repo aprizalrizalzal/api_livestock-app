@@ -25,9 +25,10 @@ class LivestockSeeder extends Seeder
             'livestock_species_id' => $baliLivestockSpecies->id,
             'photo_url' => 'photos/livestock/livestock_1.jpg',
             'gender' => 'Male',
+            'weight' => 11,
             'age' => 1,
             'price' => 10000000,
-            'detail' => 'Test',
+            'condition' => 'Baik',
         ]);
 
         Livestock::create([
@@ -36,9 +37,10 @@ class LivestockSeeder extends Seeder
             'livestock_species_id' => $baliLivestockSpecies->id,
             'photo_url' => 'photos/livestock/livestock_2.jpg',
             'gender' => 'Male',
+            'weight' => 12,
             'age' => 2,
             'price' => 12000000,
-            'detail' => 'Test',
+            'condition' => 'Baik',
         ]);
 
         Livestock::create([
@@ -47,9 +49,10 @@ class LivestockSeeder extends Seeder
             'livestock_species_id' => $baliLivestockSpecies->id,
             'photo_url' => 'photos/livestock/livestock_3.jpeg',
             'gender' => 'Male',
+            'weight' => 13,
             'age' => 3,
             'price' => 14000000,
-            'detail' => 'Test',
+            'condition' => 'Baik',
         ]);
 
         Livestock::create([
@@ -58,9 +61,10 @@ class LivestockSeeder extends Seeder
             'livestock_species_id' => $baliLivestockSpecies->id,
             'photo_url' => 'photos/livestock/livestock_4.jpg',
             'gender' => 'Male',
+            'weight' => 14,
             'age' => 4,
             'price' => 16000000,
-            'detail' => 'Test',
+            'condition' => 'Baik',
         ]);
 
         Livestock::create([
@@ -69,9 +73,10 @@ class LivestockSeeder extends Seeder
             'livestock_species_id' => $baliLivestockSpecies->id,
             'photo_url' => 'photos/livestock/livestock_5.jpg',
             'gender' => 'Male',
+            'weight' => 15,
             'age' => 5,
             'price' => 18000000,
-            'detail' => 'Test',
+            'condition' => 'Baik',
         ]);
 
         $sellerProfileDua = Profile::where('phone_number', '087765543222')->first();
@@ -84,9 +89,10 @@ class LivestockSeeder extends Seeder
             'livestock_species_id' => $boerTestLivestockSpecies->id,
             'photo_url' => 'photos/livestock/livestock_6.jpg',
             'gender' => 'Male',
+            'weight' => 16,
             'age' => 6,
             'price' => 20000000,
-            'detail' => 'Test',
+            'condition' => 'Baik',
         ]);
 
         Livestock::create([
@@ -95,9 +101,10 @@ class LivestockSeeder extends Seeder
             'livestock_species_id' => $boerTestLivestockSpecies->id,
             'photo_url' => 'photos/livestock/livestock_7.jpeg',
             'gender' => 'Male',
+            'weight' => 17,
             'age' => 7,
             'price' => 22000000,
-            'detail' => 'Test',
+            'condition' => 'Baik',
         ]);
 
         Livestock::create([
@@ -106,9 +113,10 @@ class LivestockSeeder extends Seeder
             'livestock_species_id' => $boerTestLivestockSpecies->id,
             'photo_url' => 'photos/livestock/livestock_8.jpg',
             'gender' => 'Male',
+            'weight' => 18,
             'age' => 8,
             'price' => 24000000,
-            'detail' => 'Test',
+            'condition' => 'Baik',
         ]);
 
         Livestock::create([
@@ -117,9 +125,10 @@ class LivestockSeeder extends Seeder
             'livestock_species_id' => $boerTestLivestockSpecies->id,
             'photo_url' => 'photos/livestock/livestock_9.jpg',
             'gender' => 'Male',
+            'weight' => 19,
             'age' => 9,
             'price' => 26000000,
-            'detail' => 'Test',
+            'condition' => 'Baik',
         ]);
 
         Livestock::create([
@@ -128,9 +137,10 @@ class LivestockSeeder extends Seeder
             'livestock_species_id' => $boerTestLivestockSpecies->id,
             'photo_url' => 'photos/livestock/livestock_10.jpg',
             'gender' => 'Male',
+            'weight' => 110,
             'age' => 10,
             'price' => 28000000,
-            'detail' => 'Test',
+            'condition' => 'Baik',
         ]);
     }
 }

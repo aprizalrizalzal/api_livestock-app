@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('photo_url')->nullable();
             $table->enum('gender', ['Male', 'Female']);
+            $table->integer('weight', false, 5);
+            $table->enum('unit', ['Ton', 'Quintal'])->default('Quintal');
             $table->integer('age', false, 10);
             $table->decimal('price', 10, 0);
             $table->boolean('status')->default(false);
-            $table->string('detail');
+            $table->string('condition');
             $table->timestamps();
 
             $table->foreignId('profile_id')->constrained()->onDelete('cascade');

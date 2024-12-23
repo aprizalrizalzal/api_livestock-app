@@ -18,10 +18,12 @@ class Livestock extends Model
         'livestock_type_id',
         'livestock_species_id',
         'age',
+        'weight',
+        'unit',
         'gender',
         'price',
         'status',
-        'detail',
+        'condition',
     ];
 
     protected $casts = [
