@@ -41,7 +41,7 @@ class VerificationController extends Controller
         $profile->update(['verification_token' => $token]);
 
         $to = $profile->phone_number;
-        $message = "Halo, {$profile->name}! Klik tautan ini untuk memverifikasi nomor telepon Anda: {$verificationLink}. Tautan berlaku selama 30 menit.";
+        $message = "Halo, {$profile->name}! Klik tautan ini untuk memverifikasi nomor telepon Anda \n*{$verificationLink}* \nTautan berlaku selama 30 menit.";
 
         try {
             // Kirim pesan
