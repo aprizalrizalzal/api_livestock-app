@@ -20,6 +20,7 @@ class Profile extends Model
         'gender',
         'phone_number',
         'phone_number_verified_at',
+        'verification_token',
         'address',
     ];
 

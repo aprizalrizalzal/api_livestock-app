@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('gender', ['Male', 'Female'])->nullable();
             $table->string('phone_number', 15)->nullable();
             $table->timestamp('phone_number_verified_at')->nullable();
+            $table->string('verification_token')->nullable();
             $table->text('address', 100)->nullable();
             $table->timestamps();
 

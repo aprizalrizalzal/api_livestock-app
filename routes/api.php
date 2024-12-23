@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Fonnte\VerificationController;
 use App\Http\Controllers\Livestock\LivestockController;
 use App\Http\Controllers\Livestock\LivestockPhotoController;
 use App\Http\Controllers\Livestock\LivestockSpeciesController;
@@ -35,6 +36,8 @@ Route::get('permissions', [UserController::class, 'getPermissions']);
 
 Route::post('login', [AuthController::class, 'login']);
 
+Route::get('verification/verify', [VerificationController::class, 'verify'])->name('verification.verify');
+
 Route::middleware(['auth:sanctum'])->group(function () {
     // Users
     Route::get('users', [UserController::class, 'getUsers']);
@@ -48,6 +51,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('profile-photo', [ProfileController::class, 'putProfilePhoto']);
     Route::put('profile', [ProfileController::class, 'putProfile']);
     Route::delete('profile', [ProfileController::class, 'deleteProfile']);
+
+    Route::post('verification/send', [VerificationController::class, 'send_verification_message']);
 
     // Livestocks
     Route::get('livestocks', [LivestockController::class, 'getLivestocks']);
