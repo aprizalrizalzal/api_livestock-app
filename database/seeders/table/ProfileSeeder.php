@@ -5,6 +5,7 @@ namespace Database\Seeders\table;
 use App\Models\User;
 use App\Models\Profile;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class ProfileSeeder extends Seeder
 {
@@ -20,6 +21,7 @@ class ProfileSeeder extends Seeder
             'name' => 'Admin',
             'gender' => 'Male',
             'phone_number' => '087765543321',
+            'phone_number_verified_at' => Carbon::now(),
             'address' => 'Lombok Timur',
         ]);
 
@@ -30,6 +32,7 @@ class ProfileSeeder extends Seeder
             'name' => 'Seller Satu',
             'gender' => 'Male',
             'phone_number' => '087765543322',
+            'phone_number_verified_at' => Carbon::now(),
             'address' => 'Banyu Urip, Gerung, Lombok Barat',
         ]);
 
@@ -40,6 +43,7 @@ class ProfileSeeder extends Seeder
             'name' => 'Buyer Satu',
             'gender' => 'Male',
             'phone_number' => '087765544444',
+            'phone_number_verified_at' => Carbon::now(),
             'address' => 'Aik Darek, Batukliang, Lombok Tengah',
         ]);
 
@@ -50,6 +54,7 @@ class ProfileSeeder extends Seeder
             'name' => 'Seller Dua',
             'gender' => 'Male',
             'phone_number' => '087765543222',
+            'phone_number_verified_at' => Carbon::now(),
             'address' => 'Lingsar, Narmada, Lombok Barat',
         ]);
 
@@ -60,6 +65,7 @@ class ProfileSeeder extends Seeder
             'name' => 'Buyer Dua',
             'gender' => 'Male',
             'phone_number' => '087765544244',
+            'phone_number_verified_at' => Carbon::now(),
             'address' => 'Barabali, Batukliang, Lombok Tengah',
         ]);
     }

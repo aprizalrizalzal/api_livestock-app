@@ -187,7 +187,7 @@ class PaymentController extends Controller
             ], 404);
         }
 
-        if ($user->hasRole(['admin'])) {
+        if ($user->hasRole(['admin', 'seller'])) {
             $findPayment->delete();
         } else {
             return response()->json([

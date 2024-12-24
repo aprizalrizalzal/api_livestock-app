@@ -192,7 +192,7 @@ class TransactionController extends Controller
             ], 404);
         }
 
-        if ($user->hasRole(['admin'])) {
+        if ($user->hasRole(['admin', 'seller'])) {
             $findTransaction->delete();
         } else {
             return response()->json([
