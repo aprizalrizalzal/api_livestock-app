@@ -157,6 +157,7 @@ class TransactionController extends Controller
 
         $validatedData = $request->validate([
             'status' => 'required|boolean',
+            'method' => 'nullable',
         ]);
 
         if ($user->hasRole(['admin']) || ($profileId === $transactionProfileId || $profileId === $transactionBuyerProfileId)) {
