@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Payment;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Fonnte\FonnteSendMessageController;
 use App\Models\Payment;
 use App\Models\Transaction;
+use App\Service\FonnteService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -93,6 +95,9 @@ class PaymentController extends Controller
             ], 403);
         }
 
+        $fonnteController = new FonnteSendMessageController(app(FonnteService::class));
+        $fonnteController->send_payment_message_to_seller($payment);
+
         return response()->json([
             'message' => 'Pembayaran berhasil dibuat!.',
             'payment' => $payment
@@ -128,7 +133,6 @@ class PaymentController extends Controller
         }
     }
 
-    // Lanjut disini Besok
     public function putPaymentById(Request $request, string $id)
     {
         $user = $request->user();

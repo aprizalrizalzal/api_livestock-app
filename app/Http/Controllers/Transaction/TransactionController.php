@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Transaction;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Fonnte\FonnteSendMessageController;
 use App\Models\Livestock;
 use App\Models\Transaction;
+use App\Service\FonnteService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -90,6 +92,10 @@ class TransactionController extends Controller
                 'message' => 'Maaf, Anda tidak diizinkan, Silahkan hubungi Admin.'
             ], 403);
         }
+
+        $fonnteController = new FonnteSendMessageController(app(FonnteService::class));
+        $fonnteController->send_transaction_message_to_buyer($request, $transaction);
+        $fonnteController->send_transaction_message_to_seller($transaction);
 
         return response()->json([
             'message' => 'Transaksi berhasil dibuat!',

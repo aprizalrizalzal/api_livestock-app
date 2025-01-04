@@ -3,7 +3,12 @@
 namespace App\Http\Controllers\Fonnte;
 
 use App\Http\Controllers\Controller;
+use App\Models\Livestock;
+use App\Models\Payment;
+use App\Models\Profile;
+use App\Models\Transaction;
 use App\Service\FonnteService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class FonnteSendMessageController extends Controller
@@ -15,112 +20,100 @@ class FonnteSendMessageController extends Controller
         $this->fonnte = $fonnte;
     }
 
-    public function send_verification_message($service)
+    public function send_transaction_message_to_buyer($request, $transaction)
     {
-        $to = '087765889202';
+        $user = $request->user();
+        $profile = Profile::where('user_id', $user->id)->first();
+        $livestock = Livestock::where('id', $transaction->livestock_id)->first();
 
-        if ($to) {
-            $message = $service;
-            try {
-                // Kirim pesan
-                $response = $this->fonnte->sendMessage($to, $message);
-                // Mencatat log respon
-                Log::info('Fonnte Response for Service Message:', ['response' => $response]);
-            } catch (\Exception $e) {
-                // Log pesan error atau lakukan tindakan lainnya
-                Log::error('Failed to send message: ' . $e->getMessage());
-
-                // Anda juga bisa menambahkan flash message atau indikasi lainnya untuk pengguna
-                session()->flash('error', 'Gagal mengirim pesan, silakan coba lagi nanti.');
-            }
-        } else {
-            Log::warning('Error');
+        if (!$profile) {
+            return response()->json(['message' => 'Nomor telepon tidak ditemukan.'], 404);
         }
 
-        // return redirect()->route('show.services')->with('messages', 'Pesan Terkirim');
+        $to = $profile->phone_number;
+        $message = "Halo, {$profile->name}. Terima kasih atas pemesanan {$livestock->name}. Pesanan Anda sedang kami proses, mohon menunggu hingga selesai diproses oleh penjual.";
+
+        try {
+            // Kirim pesan
+            $response = $this->fonnte->sendMessage($to, $message);
+
+            // Sesuaikan pengecekan status respons sesuai dengan struktur data yang dikembalikan Fonnte
+            if (is_array($response) && isset($response['status']) && $response['status'] === true) {
+                Log::info('Pesan berhasil dikirim ke WhatsApp melalui Fonnte: ', $response);
+                return response()->json(['message' => 'Pesan verifikasi berhasil dikirim.'], 200);
+            } else {
+                Log::error('Gagal mengirim pesan via Fonnte: ' . json_encode($response));
+                return response()->json(['message' => 'Gagal mengirim pesan verifikasi.'], 500);
+            }
+        } catch (\Exception $e) {
+            // Log pesan error atau lakukan tindakan lainnya
+            Log::error('Gagal mengirim pesan: ' . $e->getMessage());
+            return response()->json(['message' => 'Gagal mengirim pesan verifikasi.'], 500);
+        }
     }
 
-    // public function send_service_detail_message($service_code)
-    // {
-    //     $company = Company::first();
-    //     $service = Service::with([
-    //         'customer',
-    //         'customer.user',
-    //         'serviceDetail',
-    //         'serviceDetail.user'
-    //     ])->where('service_code', $service_code)->first();
+    public function send_transaction_message_to_seller($transaction)
+    {
+        $profile = Profile::where('id', $transaction->profile_id)->first();
+        $livestock = Livestock::where('id', $transaction->livestock_id)->first();
+        $livestockProfile = Profile::where('id', $livestock->profile_id)->first();
 
-    //     $to = $service->customer->phone;
+        if (!$livestockProfile) {
+            return response()->json(['message' => 'Nomor telepon tidak ditemukan.'], 404);
+        }
 
-    //     if ($service) {
-    //         $message = "*" . $company->name . "*\n"
-    //             . "" . $company->address . "\n\n"
-    //             . "Teknisi *" . $service->serviceDetail->user->name . "*\n"
-    //             . "Kode Layanan *" . $service->service_code . "*\n"
-    //             . "Status *" . ucfirst(strtolower($service->serviceDetail->status)) . "*\n\n"
-    //             . "Untuk informasi lebih lengkap, Anda bisa mengunjungi tautan "
-    //             . "*_" . url("/service-code-" . $service->service_code . "") . "_*\n\n"
-    //             . "Atau masuk menggunakan Email *" . $service->customer->user->email . "* dan Kata Sandi *@amitech* "
-    //             . "*pada tautan _" . url("/login") . "_*\n\n"
-    //             . "Terima kasih atas kepercayaan Anda terhadap layanan kami. Salam hangat dari Teknisi 😊. Sehat selalu kak *" . $service->customer->user->name . "*\n";
+        $to = $livestockProfile->phone_number;
+        $message = "Halo, {$livestockProfile->name}. Anda telah menerima pesanan baru untuk {$livestock->name} dari {$profile->name}. Mohon segera proses pesanan tersebut dan pastikan pembeli mendapatkan informasi yang diperlukan.";
 
-    //         try {
-    //             // Kirim pesan
-    //             $response = $this->fonnte->sendMessage($to, $message);
-    //             // Mencatat log respon
-    //             Log::info('Fonnte Response for Service  Message:', ['response' => $response]);
-    //         } catch (\Exception $e) {
-    //             // Log pesan error atau lakukan tindakan lainnya
-    //             Log::error('Failed to send message: ' . $e->getMessage());
+        try {
+            // Kirim pesan
+            $response = $this->fonnte->sendMessage($to, $message);
 
-    //             // Anda juga bisa menambahkan flash message atau indikasi lainnya untuk pengguna
-    //             session()->flash('error', 'Gagal mengirim pesan, silakan coba lagi nanti.');
-    //         }
-    //     } else {
-    //         Log::warning('Service not found for service code: ' . $service_code);
-    //     }
+            // Sesuaikan pengecekan status respons sesuai dengan struktur data yang dikembalikan Fonnte
+            if (is_array($response) && isset($response['status']) && $response['status'] === true) {
+                Log::info('Pesan berhasil dikirim ke WhatsApp melalui Fonnte: ', $response);
+                return response()->json(['message' => 'Pesan verifikasi berhasil dikirim.'], 200);
+            } else {
+                Log::error('Gagal mengirim pesan via Fonnte: ' . json_encode($response));
+                return response()->json(['message' => 'Gagal mengirim pesan verifikasi.'], 500);
+            }
+        } catch (\Exception $e) {
+            // Log pesan error atau lakukan tindakan lainnya
+            Log::error('Gagal mengirim pesan: ' . $e->getMessage());
+            return response()->json(['message' => 'Gagal mengirim pesan verifikasi.'], 500);
+        }
+    }
 
-    //     return redirect()->route('show.service.details')->with('messages', 'Pesan Terkirim');
-    // }
+    public function send_payment_message_to_seller($payment)
+    {
+        $transaction = Transaction::where('id', $payment->transaction_id)->first();
+        $profile = Profile::where('id', $transaction->profile_id)->first();
+        $livestock = Livestock::where('id', $transaction->livestock_id)->first();
+        $livestockProfile = Profile::where('id', $livestock->profile_id)->first();
 
-    // public function send_payment_message($payment_code)
-    // {
-    //     $company = Company::first();
-    //     $payment = Payment::with([
-    //         'serviceDetail',
-    //         'serviceDetail.service',
-    //         'serviceDetail.service.customer',
-    //         'serviceDetail.service.customer.user'
-    //     ])->where('payment_code', $payment_code)->first();
+        if (!$livestockProfile) {
+            return response()->json(['message' => 'Nomor telepon tidak ditemukan.'], 404);
+        }
 
-    //     $to = $payment->serviceDetail->service->customer->phone;
+        $to = $livestockProfile->phone_number;
+        $message = "Halo, {$livestockProfile->name}. Anda telah menerima notifikasi pembayaran untuk pesanan {$livestock->name} dari {$profile->name}. Mohon segera verifikasi pembayaran tersebut dan pastikan pembeli mendapatkan konfirmasi secepatnya.";
 
-    //     if ($payment) {
-    //         $message = "*" . $company->name . "*\n"
-    //             . "" . $company->address . "\n\n"
-    //             . "Kode Pembayaran *" . $payment->payment_code . "*\n"
-    //             . "Metode Pembayaran *" . $payment->payment_method . "*\n"
-    //             . "Status *" . ucfirst(strtolower($payment->status)) . "*\n\n"
-    //             . "Untuk informasi lebih lengkap, Anda bisa masuk menggunakan Email *" . $payment->serviceDetail->service->customer->user->email . "* dan Kata Sandi *@amitech* "
-    //             . "pada tautan *_" . url("/login") . "_*\n\n"
-    //             . "Terima kasih atas kepercayaan Anda terhadap layanan kami. Salam hangat dari Admin 😊. Sehat selalu kak *" . $payment->serviceDetail->service->customer->user->name . "*\n";
+        try {
+            // Kirim pesan
+            $response = $this->fonnte->sendMessage($to, $message);
 
-    //         try {
-    //             // Kirim pesan
-    //             $response = $this->fonnte->sendMessage($to, $message);
-    //             // Mencatat log respon
-    //             Log::info('Fonnte Response for Payment  Message:', ['response' => $response]);
-    //         } catch (\Exception $e) {
-    //             // Log pesan error atau lakukan tindakan lainnya
-    //             Log::error('Failed to send message: ' . $e->getMessage());
-
-    //             // Anda juga bisa menambahkan flash message atau indikasi lainnya untuk pengguna
-    //             session()->flash('error', 'Gagal mengirim pesan, silakan coba lagi nanti.');
-    //         }
-    //     } else {
-    //         Log::warning('Payment not found for payment code: ' . $payment_code);
-    //     }
-
-    //     return redirect()->route('show.payments')->with('messages', 'Pesan Terkirim');
-    // }
+            // Sesuaikan pengecekan status respons sesuai dengan struktur data yang dikembalikan Fonnte
+            if (is_array($response) && isset($response['status']) && $response['status'] === true) {
+                Log::info('Pesan berhasil dikirim ke WhatsApp melalui Fonnte: ', $response);
+                return response()->json(['message' => 'Pesan verifikasi berhasil dikirim.'], 200);
+            } else {
+                Log::error('Gagal mengirim pesan via Fonnte: ' . json_encode($response));
+                return response()->json(['message' => 'Gagal mengirim pesan verifikasi.'], 500);
+            }
+        } catch (\Exception $e) {
+            // Log pesan error atau lakukan tindakan lainnya
+            Log::error('Gagal mengirim pesan: ' . $e->getMessage());
+            return response()->json(['message' => 'Gagal mengirim pesan verifikasi.'], 500);
+        }
+    }
 }
