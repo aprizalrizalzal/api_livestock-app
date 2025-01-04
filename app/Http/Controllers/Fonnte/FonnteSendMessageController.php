@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Fonnte;
 
 use App\Http\Controllers\Controller;
 use App\Models\Livestock;
+use App\Models\LivestockSpecies;
+use App\Models\LivestockType;
 use App\Models\Payment;
 use App\Models\Profile;
 use App\Models\Transaction;
@@ -25,13 +27,15 @@ class FonnteSendMessageController extends Controller
         $user = $request->user();
         $profile = Profile::where('user_id', $user->id)->first();
         $livestock = Livestock::where('id', $transaction->livestock_id)->first();
+        $livestockType = LivestockType::where('id', $livestock->livestock_type_id)->first();
+        $livestockSpecies = LivestockSpecies::where('id', $livestock->livestock_species_id)->first();
 
         if (!$profile) {
             return response()->json(['message' => 'Nomor telepon tidak ditemukan.'], 404);
         }
 
         $to = $profile->phone_number;
-        $message = "Halo, {$profile->name}. Terima kasih atas pemesanan {$livestock->name}. Pesanan Anda sedang kami proses, mohon menunggu hingga selesai diproses oleh penjual.";
+        $message = "Halo, _{$profile->name}_. Terima kasih atas pemesanan _{$livestockSpecies->name} ({$livestockType->name})_. Pesanan Anda sedang kami proses, mohon menunggu hingga selesai diproses oleh penjual.";
 
         try {
             // Kirim pesan
@@ -56,6 +60,8 @@ class FonnteSendMessageController extends Controller
     {
         $profile = Profile::where('id', $transaction->profile_id)->first();
         $livestock = Livestock::where('id', $transaction->livestock_id)->first();
+        $livestockType = LivestockType::where('id', $livestock->livestock_type_id)->first();
+        $livestockSpecies = LivestockSpecies::where('id', $livestock->livestock_species_id)->first();
         $livestockProfile = Profile::where('id', $livestock->profile_id)->first();
 
         if (!$livestockProfile) {
@@ -63,7 +69,7 @@ class FonnteSendMessageController extends Controller
         }
 
         $to = $livestockProfile->phone_number;
-        $message = "Halo, {$livestockProfile->name}. Anda telah menerima pesanan baru untuk {$livestock->name} dari {$profile->name}. Mohon segera proses pesanan tersebut dan pastikan pembeli mendapatkan informasi yang diperlukan.";
+        $message = "Halo, _{$livestockProfile->name}_. Anda telah menerima pesanan baru untuk _{$livestockSpecies->name} ({$livestockType->name})_ dari _{$profile->name}_. Mohon segera proses pesanan tersebut dan pastikan pembeli mendapatkan informasi yang diperlukan.";
 
         try {
             // Kirim pesan
@@ -89,6 +95,8 @@ class FonnteSendMessageController extends Controller
         $transaction = Transaction::where('id', $payment->transaction_id)->first();
         $profile = Profile::where('id', $transaction->profile_id)->first();
         $livestock = Livestock::where('id', $transaction->livestock_id)->first();
+        $livestockType = LivestockType::where('id', $livestock->livestock_type_id)->first();
+        $livestockSpecies = LivestockSpecies::where('id', $livestock->livestock_species_id)->first();
         $livestockProfile = Profile::where('id', $livestock->profile_id)->first();
 
         if (!$livestockProfile) {
@@ -96,7 +104,7 @@ class FonnteSendMessageController extends Controller
         }
 
         $to = $livestockProfile->phone_number;
-        $message = "Halo, {$livestockProfile->name}. Anda telah menerima notifikasi pembayaran untuk pesanan {$livestock->name} dari {$profile->name}. Mohon segera verifikasi pembayaran tersebut dan pastikan pembeli mendapatkan konfirmasi secepatnya.";
+        $message = "Halo, _{$livestockProfile->name}_. Anda telah menerima notifikasi pembayaran untuk pesanan _{$livestockSpecies->name} ({$livestockType->name})_ dari _{$profile->name}_. Mohon segera verifikasi pembayaran tersebut dan pastikan pembeli mendapatkan konfirmasi secepatnya.";
 
         try {
             // Kirim pesan
